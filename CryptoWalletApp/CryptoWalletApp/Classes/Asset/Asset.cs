@@ -17,6 +17,7 @@ namespace CryptoWalletApp.Classes.Asset
             Adress = Guid.NewGuid();
         }
 
-        //možda bude potriba custom ToString metodu
+
+
     }
 }

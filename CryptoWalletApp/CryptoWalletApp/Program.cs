@@ -120,10 +120,10 @@ namespace MyApp
             };
 
             //5
-            var regularApe = new NonFungibleAsset(bitcoin.Adress)
+            var redApe = new NonFungibleAsset(polygon.Adress)
             {
-                Name = "Regular ape",
-                ValueInRelationToSpecificFungibleAsset = 1m
+                Name = "Red ape",
+                ValueInRelationToSpecificFungibleAsset = 14000m
             };
 
             //6
@@ -155,10 +155,10 @@ namespace MyApp
             };
 
             //10
-            var regularApe = new NonFungibleAsset(bitcoin.Adress)
+            var greenApe = new NonFungibleAsset(ethereum.Adress)
             {
-                Name = "Regular ape",
-                ValueInRelationToSpecificFungibleAsset = 1m
+                Name = "Green ape",
+                ValueInRelationToSpecificFungibleAsset = 12m
             };
 
             //11
@@ -224,6 +224,14 @@ namespace MyApp
                 ValueInRelationToSpecificFungibleAsset = 543m
             };
 
+            //9 walleta - po 3 btc, eth, sol
+
+            var bitcoinWallet1 = new BitcoinWallet() { };
+            bitcoinWallet1.AddSupportedFungibleAsset(bitcoin.Adress);
+            bitcoinWallet1.AddSupportedFungibleAsset(ethereum.Adress);
+            bitcoinWallet1.AddSupportedFungibleAsset(dogecoin.Adress);
+            bitcoinWallet1.AddSupportedFungibleAsset(usdcoin.Adress);
+            
 
 
             //odi triba kreirat 9 walleta, 10 fungible asseta i 20 non fungible asseta
