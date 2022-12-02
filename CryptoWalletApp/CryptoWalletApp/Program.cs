@@ -224,14 +224,58 @@ namespace MyApp
                 ValueInRelationToSpecificFungibleAsset = 543m
             };
 
+
+
             //9 walleta - po 3 btc, eth, sol
 
+            //bitcoin walleti
+
+            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(bitcoin.Adress);
+            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(ethereum.Adress);
+            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(dogecoin.Adress);
+            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(usdcoin.Adress);
+
+            BitcoinWallet.AddSupportedFungibleAsset(bitcoin.Adress);
+            BitcoinWallet.AddSupportedFungibleAsset(ethereum.Adress);
+            BitcoinWallet.AddSupportedFungibleAsset(dogecoin.Adress);
+            BitcoinWallet.AddSupportedFungibleAsset(usdcoin.Adress);
+
+
             var bitcoinWallet1 = new BitcoinWallet() { };
-            bitcoinWallet1.AddSupportedFungibleAsset(bitcoin.Adress);
-            bitcoinWallet1.AddSupportedFungibleAsset(ethereum.Adress);
-            bitcoinWallet1.AddSupportedFungibleAsset(dogecoin.Adress);
-            bitcoinWallet1.AddSupportedFungibleAsset(usdcoin.Adress);
-            
+            bitcoinWallet1.AddBalanceOfFungibleAsset(bitcoin.Adress, 8);
+            bitcoinWallet1.AddBalanceOfFungibleAsset(polkadot.Adress, 8);
+
+
+            var bitcoinWallet2 = new BitcoinWallet() { };
+            bitcoinWallet2.AddBalanceOfFungibleAsset(dogecoin.Adress, 9000);
+
+            var bitcoinWallet3 = new BitcoinWallet() { };
+            bitcoinWallet3.AddBalanceOfFungibleAsset(ethereum.Adress, 50);
+
+            //ethereum walleti
+            //var ethereumWallet1 = new EthereumWallet() { };
+            //ethereumWallet1.AddSupportedFungibleAsset(bitcoin.Adress);
+            //ethereumWallet1.AddSupportedFungibleAsset(ethereum.Adress);
+            //ethereumWallet1.AddSupportedFungibleAsset(usdcoin.Adress);
+            //ethereumWallet1.AddSupportedFungibleAsset(polkadot.Adress);
+            //ethereumWallet1.AddSupportedFungibleAsset(tether.Adress);
+            //ethereumWallet1.AddSupportedFungibleAsset(dai.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
+
+            Console.WriteLine($"Bitcoin adress: {bitcoin.Adress}");
+            foreach (var item in bitcoinWallet1.BalancesOfFungibleAsset)
+            {
+                Console.WriteLine(item);
+            }
+
 
 
             //odi triba kreirat 9 walleta, 10 fungible asseta i 20 non fungible asseta

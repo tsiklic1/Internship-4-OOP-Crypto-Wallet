@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace CryptoWalletApp.Classes.Wallet
 {
-    public abstract class EthereumWallet : AbleToInteractWithNonFungibleAssetWallet
+    public class EthereumWallet : AbleToInteractWithNonFungibleAssetWallet
     {
         public EthereumWallet() : base() { }
 
-        public override bool AddSupportedFungibleAsset(Guid newFungibleAsset)
-        {
-            return base.AddSupportedFungibleAsset(newFungibleAsset);
-        }
 
         public override bool AddBalanceOfFungibleAsset(Guid fungibleAsset, decimal amountOfFungibleAssetToBeAdded)
         {
             return base.AddBalanceOfFungibleAsset(fungibleAsset, amountOfFungibleAssetToBeAdded);
+        }
+        
+        public override bool AddSupportedNonFungibleAsset(Guid newNonFungibleAsset)
+        {
+            return base.AddSupportedNonFungibleAsset(newNonFungibleAsset);
         }
     }
 }

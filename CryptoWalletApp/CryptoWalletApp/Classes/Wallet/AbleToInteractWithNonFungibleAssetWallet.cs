@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoWalletApp.Classes.Asset;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,25 @@ namespace CryptoWalletApp.Classes.Wallet
         public List<Guid> AdressesOfSupportedNonFungibleAssets { get; set; }  //ovo mi možda i ne triba nego samo uvalit sa Fungible
         //isto za sve eth/sol wallete
 
-        public AbleToInteractWithNonFungibleAssetWallet() : base() { }
-
-        public override bool AddSupportedFungibleAsset(Guid newFungibleAsset)
+        public AbleToInteractWithNonFungibleAssetWallet() : base() 
         {
-            return base.AddSupportedFungibleAsset(newFungibleAsset);
+            AdressesOfOwnedNonFungibleAssets= new List<Guid>();
+            AdressesOfSupportedNonFungibleAssets = new List<Guid>();
         }
 
         public override bool AddBalanceOfFungibleAsset(Guid fungibleAsset, decimal amountOfFungibleAssetToBeAdded)
         {
             return base.AddBalanceOfFungibleAsset(fungibleAsset, amountOfFungibleAssetToBeAdded);
+        }
+
+        public virtual bool AddSupportedNonFungibleAsset(Guid newNonFungibleAsset)
+        {
+            if (AdressesOfSupportedNonFungibleAssets.Contains(newNonFungibleAsset))
+            {
+                return false;
+            }
+            AdressesOfSupportedNonFungibleAssets.Add(newNonFungibleAsset);
+            return true;
         }
     }
 }

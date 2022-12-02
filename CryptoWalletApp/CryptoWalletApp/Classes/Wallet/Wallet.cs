@@ -10,48 +10,44 @@ namespace CryptoWalletApp.Classes.Wallet
     {
         public Guid Adress { get; }
         public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } //mozda samo set
-        public List<Guid> AdressesOfSupportedFungibleAssets { get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
+        public static List<Guid> AdressesOfSupportedFungibleAssets { get; set; } = new List<Guid>(); //{ get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
         public List<Guid> AdressesOfTransactions { get; private set; }
 
         public Wallet()
         {
             Adress = Guid.NewGuid();
             BalancesOfFungibleAsset = new Dictionary<Guid, decimal>();
-            AdressesOfSupportedFungibleAssets = new List<Guid>();
             AdressesOfTransactions = new List<Guid>();
 
         }
 
-        public virtual bool AddSupportedFungibleAsset(Guid newFungibleAsset)
+        public static bool AddSupportedFungibleAsset(Guid fungibleAsset)
         {
-            if (AdressesOfSupportedFungibleAssets.Contains(newFungibleAsset))
+            if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
             {
                 return false;
             }
-            AdressesOfSupportedFungibleAssets.Add(newFungibleAsset);
-            BalancesOfFungibleAsset.Add(newFungibleAsset, 0);
+            AdressesOfSupportedFungibleAssets.Add(fungibleAsset);
             return true;
         }
 
         public virtual bool AddBalanceOfFungibleAsset(Guid fungibleAsset, decimal amountOfFungibleAssetToBeAdded)
         {
-            var adressExists = false;
-            foreach (var item in BalancesOfFungibleAsset)
+            if (!AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
             {
-                if (item.Key == fungibleAsset)
-                {
-                    BalancesOfFungibleAsset[fungibleAsset] += amountOfFungibleAssetToBeAdded;
-                    adressExists = true;
-                }
+                Console.WriteLine($"Taj asset ({fungibleAsset}) nije podrzan u ovom walletu");
+                return false;
             }
-            if (adressExists)
+            if (BalancesOfFungibleAsset.ContainsKey(fungibleAsset))
             {
-                return true;
+                BalancesOfFungibleAsset[fungibleAsset] += amountOfFungibleAssetToBeAdded;
+
             }
             else
             {
-                return false;
+                BalancesOfFungibleAsset.Add(fungibleAsset, amountOfFungibleAssetToBeAdded);
             }
+            return true;
         }
 
 
