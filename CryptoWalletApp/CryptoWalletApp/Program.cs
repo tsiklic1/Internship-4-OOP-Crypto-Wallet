@@ -21,18 +21,209 @@ namespace MyApp
 
             };
 
-            var nft = new NonFungibleAsset(bitcoin.Adress)
-            {
-                Name = "Bored Ape",
-                ValueInRelationToSpecificFungibleAsset = 3,
-            };
 
             //10 fungible asseta
-            var bitcoin = new FungibleAsset(20000)
+            var bitcoin = new FungibleAsset(16000)
             {
                 Name = "Bitcoin",
                 Label = "BTC"
             };
+
+            var ethereum = new FungibleAsset(1207)
+            {
+                Name = "Ethereum",
+                Label = "ETH"
+            };
+
+            var tether = new FungibleAsset(1)
+            {
+                Name = "Tether",
+                Label = "USDT"
+            };
+
+            var bnb = new FungibleAsset(299)
+            {
+                Name = "BNB",
+                Label = "BNB"
+            };
+
+            var dogecoin = new FungibleAsset(0.1m)
+            {
+                Name = "Dogecoin",
+                Label = "DOGE"
+            };
+
+            var cardano = new FungibleAsset(0.3m)
+            {
+                Name = "Cardano",
+                Label = "ADA"
+            };
+
+            var polygon = new FungibleAsset(0.83m)
+            {
+                Name = "Polygon",
+                Label = "MATIC"
+            };
+
+            var polkadot = new FungibleAsset(5.26m)
+            {
+                Name = "Polkadot",
+                Label = "DOT"
+            };
+
+            var dai = new FungibleAsset(1)
+            {
+                Name = "Dai",
+                Label = "DAI"
+            };
+
+            var usdcoin = new FungibleAsset(1)
+            {
+                Name = "USD coin",
+                Label = "USDC"
+            };
+
+            //20 Non Fungible asseta
+            //0
+            var regularApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Regular ape",
+                ValueInRelationToSpecificFungibleAsset = 1m
+            };
+
+            //1
+            var punkApe = new NonFungibleAsset(ethereum.Adress)
+            {
+                Name = "Punk ape",
+                ValueInRelationToSpecificFungibleAsset = 20m
+            };
+
+            //2
+            var devilApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Devil ape",
+                ValueInRelationToSpecificFungibleAsset = 1.3m
+            };
+
+            //3
+            var shyApe = new NonFungibleAsset(dogecoin.Adress)
+            {
+                Name = "Shy ape",
+                ValueInRelationToSpecificFungibleAsset = 30000m
+            };
+
+            //4
+            var bunnyApe = new NonFungibleAsset(bnb.Adress)
+            {
+                Name = "Bunny ape",
+                ValueInRelationToSpecificFungibleAsset = 30m
+            };
+
+            //5
+            var regularApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Regular ape",
+                ValueInRelationToSpecificFungibleAsset = 1m
+            };
+
+            //6
+            var russianApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Russian ape",
+                ValueInRelationToSpecificFungibleAsset = 0.8m
+            };
+
+            //7
+            var sailorApe = new NonFungibleAsset(ethereum.Adress)
+            {
+                Name = "Sailor ape",
+                ValueInRelationToSpecificFungibleAsset = 1m
+            };
+
+            //8
+            var pirateApe = new NonFungibleAsset(ethereum.Adress)
+            {
+                Name = "Pirate ape",
+                ValueInRelationToSpecificFungibleAsset = 14m
+            };
+
+            //9
+            var blindApe = new NonFungibleAsset(cardano.Adress)
+            {
+                Name = "Blined ape",
+                ValueInRelationToSpecificFungibleAsset = 700m
+            };
+
+            //10
+            var regularApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Regular ape",
+                ValueInRelationToSpecificFungibleAsset = 1m
+            };
+
+            //11
+            var sleepyApe = new NonFungibleAsset(cardano.Adress)
+            {
+                Name = "Sleepy ape",
+                ValueInRelationToSpecificFungibleAsset = 11m
+            };
+
+            //12
+            var detectiveApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Detective ape",
+                ValueInRelationToSpecificFungibleAsset = 1.7m
+            };
+
+            //13
+            var holyApe = new NonFungibleAsset(ethereum.Adress)
+            {
+                Name = "Holy ape",
+                ValueInRelationToSpecificFungibleAsset = 2m
+            };
+
+            //14
+            var partyApe = new NonFungibleAsset(dogecoin.Adress)
+            {
+                Name = "Party ape",
+                ValueInRelationToSpecificFungibleAsset = 1000m
+            };
+
+            //15
+            var cowboyApe = new NonFungibleAsset(usdcoin.Adress)
+            {
+                Name = "Cowboy ape",
+                ValueInRelationToSpecificFungibleAsset = 20000m
+            };
+
+            //16
+            var karateApe = new NonFungibleAsset(bitcoin.Adress)
+            {
+                Name = "Karate ape",
+                ValueInRelationToSpecificFungibleAsset = 1m
+            };
+
+            //17
+            var soldierApe = new NonFungibleAsset(ethereum.Adress)
+            {
+                Name = "Soldier ape",
+                ValueInRelationToSpecificFungibleAsset = 90m
+            };
+
+            //18
+            var skeletonApe = new NonFungibleAsset(polkadot.Adress)
+            {
+                Name = "Skeleton ape",
+                ValueInRelationToSpecificFungibleAsset = 1000m
+            };
+
+            //19
+            var blueApe = new NonFungibleAsset(polkadot.Adress)
+            {
+                Name = "Blue ape",
+                ValueInRelationToSpecificFungibleAsset = 543m
+            };
+
 
 
             //odi triba kreirat 9 walleta, 10 fungible asseta i 20 non fungible asseta
