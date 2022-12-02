@@ -1,6 +1,7 @@
 ﻿using CryptoWalletApp.Classes.Asset;
 using CryptoWalletApp.Classes.Wallet;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace MyApp 
 {
@@ -67,6 +68,17 @@ namespace MyApp
             {
                 Name = "USD coin",
                 Label = "USDC"
+            };
+
+            var fungibleAssetList = new List<FungibleAsset>()
+            {
+                bitcoin, ethereum, tether, bnb, dogecoin, cardano, polygon, polkadot, dai, usdcoin
+            };
+
+            var listOfLabels = new List<string>()
+            {
+                bitcoin.Label, ethereum.Label, tether.Label, bnb.Label, dogecoin.Label, cardano.Label, polygon.Label,
+                polkadot.Label, dai.Label, usdcoin.Label
             };
 
             //20 Non Fungible asseta
@@ -210,8 +222,16 @@ namespace MyApp
                 ValueInRelationToSpecificFungibleAsset = 543m
             };
 
+            var nonFungibleAssetList = new List<NonFungibleAsset>()
+            {
+                regularApe, punkApe, devilApe, shyApe, bunnyApe, redApe, russianApe, sailorApe, pirateApe,
+                blindApe, greenApe, sleepyApe, detectiveApe, holyApe, partyApe, cowboyApe, karateApe, soldierApe,
+                skeletonApe, blueApe
+            };
+
             //9 walleta - po 3 btc, eth, sol
             //bitcoin walleti
+
 
             var bitcoinWallet1 = new BitcoinWallet() 
             {
@@ -239,6 +259,11 @@ namespace MyApp
                 }
             };
             bitcoinWallet3.AddBalanceOfFungibleAsset(ethereum.Adress, 50);
+
+            var bitcoinWalletSupportedLabelsList = new List<string>()
+            {
+                bitcoin.Label, ethereum.Label, dogecoin.Label, usdcoin.Label
+            };
 
             //ethereum walleti
 
@@ -279,6 +304,11 @@ namespace MyApp
             ethereumWallet3.AddSupportedFungibleAsset(cardano.Adress);
             ethereumWallet3.AddBalanceOfFungibleAsset(tether.Adress, 3400);
 
+            var ethereumWalletSupportedLabelsList = new List<string>()
+            {
+                bitcoin.Label, ethereum.Label, tether.Label, bnb.Label, cardano.Label
+            };
+
             //solana walleti
 
             var solanaWallet1 = new SolanaWallet() { };
@@ -304,6 +334,11 @@ namespace MyApp
             solanaWallet3.AddSupportedFungibleAsset(polkadot.Adress);
             solanaWallet3.AddSupportedFungibleAsset(dai.Adress);
             solanaWallet3.AddBalanceOfFungibleAsset(dai.Adress, 4333);
+
+            var solanaWalletSupportedLabelsList = new List<string>()
+            {
+                bitcoin.Label, ethereum.Label, polygon.Label, polkadot.Label, dai.Label
+            };
 
             var listOfBitcoinWallets = new List<BitcoinWallet>()
             {
@@ -358,7 +393,71 @@ namespace MyApp
                 {
                     case "1":
                         Console.WriteLine("Odabrali ste izbor 1 - Bitcoin wallet");
+                        //---------------------------------------------
+                        var newBitcoinWallet = new BitcoinWallet()
+                        {
+                            AdressesOfSupportedFungibleAssets = new List<Guid>()
+                            {
+                                bitcoin.Adress, ethereum.Adress,dogecoin.Adress, usdcoin.Adress,
+                            }
+                        };
+                        Console.WriteLine("Podrzani fungible asseti za bitcoin wallet su: ");
+                        foreach (var item1 in bitcoinWallet1.AdressesOfSupportedFungibleAssets) //ovo moze u funkciju valjda
+                        {
+                            foreach (var item2 in fungibleAssetList)
+                            {
+                                if (item2.Adress == item1)
+                                {
+                                    Console.WriteLine($"Ime: {item2.Name} oznaka: {item2.Label}, adresa: {item1}");
+                                }
+                            }
+                        }
 
+                        Console.WriteLine("Unesite sve oznake fungible asseta kojem zelite postaviti pocetni balans (odvojene razmakom)");
+                        var stringOfLabels = Console.ReadLine();
+                        string[] labelsSplitList = stringOfLabels.Split(" ");
+
+                        foreach (var label in labelsSplitList)
+                        {
+                            if (!bitcoinWalletSupportedLabelsList.Contains(label))
+                            {
+                                Console.WriteLine($"Fungible asset s labelom {label} nije podrzan u bitcoin walletu");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Unesite koliko {label} zelite postaviti");
+                                decimal decimalOutput;
+                                var amount = Console.ReadLine();
+                                bool isDecimal = decimal.TryParse(amount, out decimalOutput);
+                                if (!isDecimal)
+                                {
+                                    Console.WriteLine("To nije pravilan unos");
+                                }
+                                else
+                                {
+                                    // sad se unila količina triba pronać odgovarajući asset i stavit količinu
+                                    foreach (var asset in fungibleAssetList)
+                                    {
+                                        if (asset.Label == label)
+                                        {
+                                            newBitcoinWallet.AddBalanceOfFungibleAsset(asset.Adress, decimalOutput);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        Console.WriteLine("Ako zelite potvrditi stvaranje novog walleta upisite DA");
+                        var confirmation = Console.ReadLine();
+                        if (confirmation == "DA")
+                        {
+                            listOfBitcoinWallets.Add(newBitcoinWallet);
+                        }
+                        else
+                            Console.WriteLine("Akcija ponistena");
+                        
+
+                        //---------------------------------------------
                         break;
                     case "2":
                         Console.WriteLine("Odabrali ste izbor 2 - Ethereum wallet");
