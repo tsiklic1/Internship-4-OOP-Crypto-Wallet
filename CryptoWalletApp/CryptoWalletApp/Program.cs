@@ -14,7 +14,7 @@ namespace MyApp
             };
 
 
-            var bitcoin = new FungibleAsset(200000)
+            var bitcoin1 = new FungibleAsset(200000)
             {
                 Name = "Bitcion",
                 Label = "BTC",
@@ -25,6 +25,13 @@ namespace MyApp
             {
                 Name = "Bored Ape",
                 ValueInRelationToSpecificFungibleAsset = 3,
+            };
+
+            //10 fungible asseta
+            var bitcoin = new FungibleAsset(20000)
+            {
+                Name = "Bitcoin",
+                Label = "BTC"
             };
 
 
@@ -65,6 +72,8 @@ namespace MyApp
                 switch (choiceOfWalletToCreate)
                 {
                     case "1":
+                        Console.WriteLine("Odabrali ste izbor 1 - Bitcoin wallet");
+
                         break;
                     case "2":
                         break;
@@ -72,7 +81,7 @@ namespace MyApp
                         break;
 
                     default:
-                        Console.WriteLine("Niste odabrali valjan izbor i vraceni ste na pocetni izbornik.");
+                        Console.WriteLine("Niste odabrali valjan izbor i vraceni ste na pocetni izbornik.\n");
                         break;
                 }
             }
