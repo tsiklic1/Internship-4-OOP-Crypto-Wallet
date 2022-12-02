@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoWalletApp.Classes.Asset;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace CryptoWalletApp.Classes.Wallet
     {
         public Guid Adress { get; }
         public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } //mozda samo set
-        public static List<Guid> AdressesOfSupportedFungibleAssets { get; set; } = new List<Guid>(); //{ get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
+        public List<Guid> AdressesOfSupportedFungibleAssets { get; set; } /*= new List<Guid>();*/ //{ get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
         public List<Guid> AdressesOfTransactions { get; private set; }
 
         public Wallet()
@@ -18,16 +19,18 @@ namespace CryptoWalletApp.Classes.Wallet
             Adress = Guid.NewGuid();
             BalancesOfFungibleAsset = new Dictionary<Guid, decimal>();
             AdressesOfTransactions = new List<Guid>();
+            AdressesOfSupportedFungibleAssets= new List<Guid>();
 
         }
 
-        public static bool AddSupportedFungibleAsset(Guid fungibleAsset)
+        public virtual bool AddSupportedFungibleAsset(Guid newFungibleAsset)
         {
-            if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
+            if(AdressesOfSupportedFungibleAssets.Contains(newFungibleAsset))
             {
                 return false;
             }
-            AdressesOfSupportedFungibleAssets.Add(fungibleAsset);
+            AdressesOfSupportedFungibleAssets.Add(newFungibleAsset);
+            BalancesOfFungibleAsset.Add(newFungibleAsset, 0);
             return true;
         }
 

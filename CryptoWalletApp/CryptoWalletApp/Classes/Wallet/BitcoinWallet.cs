@@ -8,12 +8,26 @@ namespace CryptoWalletApp.Classes.Wallet
 {
     public class BitcoinWallet : Wallet
     {
-        
         public BitcoinWallet() : base(){}
 
+        public override bool AddSupportedFungibleAsset(Guid newFungibleAsset)
+        {
+            return base.AddSupportedFungibleAsset(newFungibleAsset);
+        }
         public override bool AddBalanceOfFungibleAsset(Guid fungibleAsset, decimal amountOfFungibleAssetToBeAdded)
         {
             return base.AddBalanceOfFungibleAsset(fungibleAsset, amountOfFungibleAssetToBeAdded);
         }
+
+        //public bool AddSupportedFungibleAsset(Guid fungibleAsset)
+        //{
+        //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
+        //    {
+        //        return false;
+        //    }
+        //    AdressesOfSupportedFungibleAssets.Add(fungibleAsset);
+        //    return true;
+        //}
+
     }
 }

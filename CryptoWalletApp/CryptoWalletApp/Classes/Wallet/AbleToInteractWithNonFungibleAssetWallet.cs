@@ -19,6 +19,10 @@ namespace CryptoWalletApp.Classes.Wallet
             AdressesOfSupportedNonFungibleAssets = new List<Guid>();
         }
 
+        public override bool AddSupportedFungibleAsset(Guid newFungibleAsset)
+        {
+            return base.AddSupportedFungibleAsset(newFungibleAsset);
+        }
         public override bool AddBalanceOfFungibleAsset(Guid fungibleAsset, decimal amountOfFungibleAssetToBeAdded)
         {
             return base.AddBalanceOfFungibleAsset(fungibleAsset, amountOfFungibleAssetToBeAdded);

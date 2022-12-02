@@ -8,20 +8,6 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
-            var bitcoinWallet = new BitcoinWallet()
-            {
-
-            };
-
-
-            var bitcoin1 = new FungibleAsset(200000)
-            {
-                Name = "Bitcion",
-                Label = "BTC",
-
-            };
-
-
             //10 fungible asseta
             var bitcoin = new FungibleAsset(16000)
             {
@@ -224,61 +210,120 @@ namespace MyApp
                 ValueInRelationToSpecificFungibleAsset = 543m
             };
 
-
-
             //9 walleta - po 3 btc, eth, sol
-
             //bitcoin walleti
 
-            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(bitcoin.Adress);
-            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(ethereum.Adress);
-            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(dogecoin.Adress);
-            //BitcoinWallet.AdressesOfSupportedFungibleAssets.Add(usdcoin.Adress);
-
-            BitcoinWallet.AddSupportedFungibleAsset(bitcoin.Adress);
-            BitcoinWallet.AddSupportedFungibleAsset(ethereum.Adress);
-            BitcoinWallet.AddSupportedFungibleAsset(dogecoin.Adress);
-            BitcoinWallet.AddSupportedFungibleAsset(usdcoin.Adress);
-
-
-            var bitcoinWallet1 = new BitcoinWallet() { };
+            var bitcoinWallet1 = new BitcoinWallet() 
+            {
+                AdressesOfSupportedFungibleAssets = new List<Guid>()
+                {
+                    bitcoin.Adress, ethereum.Adress,dogecoin.Adress, usdcoin.Adress,
+                }
+            };
             bitcoinWallet1.AddBalanceOfFungibleAsset(bitcoin.Adress, 8);
-            bitcoinWallet1.AddBalanceOfFungibleAsset(polkadot.Adress, 8);
 
-
-            var bitcoinWallet2 = new BitcoinWallet() { };
+            var bitcoinWallet2 = new BitcoinWallet() 
+            {
+                AdressesOfSupportedFungibleAssets = new List<Guid>()
+                {
+                    bitcoin.Adress, ethereum.Adress,dogecoin.Adress, usdcoin.Adress,
+                }
+            };
             bitcoinWallet2.AddBalanceOfFungibleAsset(dogecoin.Adress, 9000);
 
-            var bitcoinWallet3 = new BitcoinWallet() { };
+            var bitcoinWallet3 = new BitcoinWallet() 
+            {
+                AdressesOfSupportedFungibleAssets = new List<Guid>()
+                {
+                    bitcoin.Adress, ethereum.Adress,dogecoin.Adress, usdcoin.Adress,
+                }
+            };
             bitcoinWallet3.AddBalanceOfFungibleAsset(ethereum.Adress, 50);
 
             //ethereum walleti
-            //var ethereumWallet1 = new EthereumWallet() { };
-            //ethereumWallet1.AddSupportedFungibleAsset(bitcoin.Adress);
-            //ethereumWallet1.AddSupportedFungibleAsset(ethereum.Adress);
-            //ethereumWallet1.AddSupportedFungibleAsset(usdcoin.Adress);
-            //ethereumWallet1.AddSupportedFungibleAsset(polkadot.Adress);
-            //ethereumWallet1.AddSupportedFungibleAsset(tether.Adress);
-            //ethereumWallet1.AddSupportedFungibleAsset(dai.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
-            //ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
 
-            Console.WriteLine($"Bitcoin adress: {bitcoin.Adress}");
-            foreach (var item in bitcoinWallet1.BalancesOfFungibleAsset)
+            var ethereumWallet1 = new EthereumWallet() 
             {
-                Console.WriteLine(item);
-            }
+                AdressesOfSupportedFungibleAssets = new List<Guid>
+                {
+                    bitcoin.Adress, ethereum.Adress, tether.Adress, bnb.Adress, cardano.Adress
+                },
+                AdressesOfSupportedNonFungibleAssets = new List<Guid>
+                {
+                    regularApe.Adress, punkApe.Adress, devilApe.Adress, shyApe.Adress, bunnyApe.Adress, regularApe.Adress
+                }
 
+            
+            };
+            ethereumWallet1.AddSupportedFungibleAsset(bitcoin.Adress);
+            ethereumWallet1.AddSupportedFungibleAsset(ethereum.Adress);
+            ethereumWallet1.AddSupportedFungibleAsset(tether.Adress);
+            ethereumWallet1.AddSupportedFungibleAsset(bnb.Adress);
+            ethereumWallet1.AddSupportedFungibleAsset(cardano.Adress);
+            ethereumWallet1.AddBalanceOfFungibleAsset(ethereum.Adress, 10);
+            ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
 
+            var ethereumWallet2 = new EthereumWallet() { };
+            ethereumWallet2.AddSupportedFungibleAsset(bitcoin.Adress);
+            ethereumWallet2.AddSupportedFungibleAsset(ethereum.Adress);
+            ethereumWallet2.AddSupportedFungibleAsset(tether.Adress);
+            ethereumWallet2.AddSupportedFungibleAsset(bnb.Adress);
+            ethereumWallet2.AddSupportedFungibleAsset(cardano.Adress);
+            ethereumWallet2.AddBalanceOfFungibleAsset(bitcoin.Adress, 2);
 
-            //odi triba kreirat 9 walleta, 10 fungible asseta i 20 non fungible asseta
+            var ethereumWallet3 = new EthereumWallet() { };
+            ethereumWallet3.AddSupportedFungibleAsset(bitcoin.Adress);
+            ethereumWallet3.AddSupportedFungibleAsset(ethereum.Adress);
+            ethereumWallet3.AddSupportedFungibleAsset(tether.Adress);
+            ethereumWallet3.AddSupportedFungibleAsset(bnb.Adress);
+            ethereumWallet3.AddSupportedFungibleAsset(cardano.Adress);
+            ethereumWallet3.AddBalanceOfFungibleAsset(tether.Adress, 3400);
+
+            //solana walleti
+
+            var solanaWallet1 = new SolanaWallet() { };
+            solanaWallet1.AddSupportedFungibleAsset(bitcoin.Adress);
+            solanaWallet1.AddSupportedFungibleAsset(ethereum.Adress);
+            solanaWallet1.AddSupportedFungibleAsset(polygon.Adress);
+            solanaWallet1.AddSupportedFungibleAsset(polkadot.Adress);
+            solanaWallet1.AddSupportedFungibleAsset(dai.Adress);
+            solanaWallet1.AddBalanceOfFungibleAsset(polygon.Adress, 3000);
+
+            var solanaWallet2 = new SolanaWallet() { };
+            solanaWallet2.AddSupportedFungibleAsset(bitcoin.Adress);
+            solanaWallet2.AddSupportedFungibleAsset(ethereum.Adress);
+            solanaWallet2.AddSupportedFungibleAsset(polygon.Adress);
+            solanaWallet2.AddSupportedFungibleAsset(polkadot.Adress);
+            solanaWallet2.AddSupportedFungibleAsset(dai.Adress);
+            solanaWallet2.AddBalanceOfFungibleAsset(bitcoin.Adress, 11);
+
+            var solanaWallet3 = new SolanaWallet() { };
+            solanaWallet3.AddSupportedFungibleAsset(bitcoin.Adress);
+            solanaWallet3.AddSupportedFungibleAsset(ethereum.Adress);
+            solanaWallet3.AddSupportedFungibleAsset(polygon.Adress);
+            solanaWallet3.AddSupportedFungibleAsset(polkadot.Adress);
+            solanaWallet3.AddSupportedFungibleAsset(dai.Adress);
+            solanaWallet3.AddBalanceOfFungibleAsset(dai.Adress, 4333);
+
+            var listOfBitcoinWallets = new List<BitcoinWallet>()
+            {
+                bitcoinWallet1, bitcoinWallet2, bitcoinWallet3
+            };
+
+            var listOfEthereumWallets = new List<EthereumWallet>()
+            {
+                ethereumWallet1, ethereumWallet2, ethereumWallet3
+            };
+
+            var listOfSolanaWallets = new List<SolanaWallet>()
+            {
+                solanaWallet1, solanaWallet2, solanaWallet3
+            };
+
+            var listOfWallets = new List<Wallet>()  //mozda bude tribala ova lista svih walleta
+            {
+                bitcoinWallet1
+            };
 
             var choice = "";
             while (choice != "0")
@@ -303,9 +348,6 @@ namespace MyApp
                         Console.WriteLine("Niste unijeli valjani izbor.");
                         break;
                 }
-
-
-
             }
 
             void CreateWallet()
@@ -319,10 +361,13 @@ namespace MyApp
 
                         break;
                     case "2":
+                        Console.WriteLine("Odabrali ste izbor 2 - Ethereum wallet");
+
                         break;
                     case "3":
-                        break;
+                        Console.WriteLine("Odabrali ste izbor 3 - Solana wallet");
 
+                        break;
                     default:
                         Console.WriteLine("Niste odabrali valjan izbor i vraceni ste na pocetni izbornik.\n");
                         break;
