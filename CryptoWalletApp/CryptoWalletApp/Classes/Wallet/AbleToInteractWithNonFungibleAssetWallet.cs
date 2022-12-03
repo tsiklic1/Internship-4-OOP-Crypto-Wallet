@@ -57,5 +57,32 @@ namespace CryptoWalletApp.Classes.Wallet
             return false;
         }
 
+        public override decimal CalculateTotalValueOfFungibleAssetsInUSD(List<FungibleAsset> fungibleAssetList)
+        {
+            return base.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+        }
+
+        public virtual decimal CalculateTotalValueOfNonFungibleAssetsInUSD(List<NonFungibleAsset> nonFungibleAssetList, List<FungibleAsset> fungibleAssetList)
+        {
+            decimal sum = 0;
+            foreach (var item in AdressesOfOwnedNonFungibleAssets)
+            {
+                foreach (var item2 in nonFungibleAssetList)
+                {
+                    if (item == item2.Adress) //ovo nađe adresu nfta 
+                    {
+                        foreach (var item3 in fungibleAssetList)
+                        {
+                            if (item2.AdressOfSpecificFungibleAsset == item3.Adress)
+                            {
+                                sum += item2.ValueInRelationToSpecificFungibleAsset * item3.ValueInRelationToDollar;
+                            }
+                        }
+                    }
+                }
+            }
+            TotalValueOfFungibleAssetsInUSD = sum;
+            return sum;
+        }
     }
 }

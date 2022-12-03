@@ -13,7 +13,7 @@ namespace CryptoWalletApp.Classes.Wallet
         public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } //mozda samo set
         public List<Guid> AdressesOfSupportedFungibleAssets { get; set; } /*= new List<Guid>();*/ //{ get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
         public List<Guid> AdressesOfTransactions { get; private set; }
-
+        public decimal TotalValueOfFungibleAssetsInUSD { get; set; } = 0;
         public Wallet()
         {
             Adress = Guid.NewGuid();
@@ -51,6 +51,28 @@ namespace CryptoWalletApp.Classes.Wallet
                 BalancesOfFungibleAsset.Add(fungibleAsset, amountOfFungibleAssetToBeAdded);
             }
             return true;
+        }
+
+        public virtual decimal CalculateTotalValueOfFungibleAssetsInUSD(List<FungibleAsset> fungibleAssetList)
+        {
+            decimal sum = 0;
+            foreach (var item in BalancesOfFungibleAsset)
+            {
+                foreach (var item2 in fungibleAssetList)
+                {
+                    if (item.Key == item2.Adress)
+                    {
+                        sum += item.Value * item2.ValueInRelationToDollar;
+                    }
+                }
+            }
+            TotalValueOfFungibleAssetsInUSD = sum;
+            return sum;
+        }
+
+        public override string ToString()
+        {
+            return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put";
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoWalletApp.Classes.Asset;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,15 @@ namespace CryptoWalletApp.Classes.Wallet
             return base.AddBalanceOfFungibleAsset(fungibleAsset, amountOfFungibleAssetToBeAdded);
         }
 
+        public override decimal CalculateTotalValueOfFungibleAssetsInUSD(List<FungibleAsset> fungibleAssetList)
+        {
+            return base.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+        }
+
+        public override string ToString()
+        {
+            return "Bitcoin wallet\n" + base.ToString();
+        }
         //public bool AddSupportedFungibleAsset(Guid fungibleAsset)
         //{
         //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))

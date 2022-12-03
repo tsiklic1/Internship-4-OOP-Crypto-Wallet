@@ -244,6 +244,10 @@ namespace MyApp
                 }
             };
             bitcoinWallet1.AddBalanceOfFungibleAsset(bitcoin.Adress, 8);
+            bitcoinWallet1.AddBalanceOfFungibleAsset(usdcoin.Adress, 5);
+
+            Console.WriteLine(bitcoinWallet1.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList));
+            Console.WriteLine(bitcoinWallet1);
 
             var bitcoinWallet2 = new BitcoinWallet() 
             {
@@ -407,6 +411,7 @@ namespace MyApp
                         break;
                     case "2":
                         Console.WriteLine("Odabrali ste opciju 2 - Pristupi walletu");
+                        AccessWallet();
                         break;
                     case "0":
                         Console.WriteLine("Izlaz");
@@ -595,6 +600,12 @@ namespace MyApp
                         Console.WriteLine("Niste odabrali valjan izbor i vraceni ste na pocetni izbornik.\n");
                         break;
                 }
+            }
+
+            void AccessWallet()
+            {
+                Console.WriteLine("Trenutno dostupni walleti su: ");
+                
             }
 
 
