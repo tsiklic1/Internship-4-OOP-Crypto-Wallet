@@ -37,5 +37,25 @@ namespace CryptoWalletApp.Classes.Wallet
             AdressesOfSupportedNonFungibleAssets.Add(newNonFungibleAsset);
             return true;
         }
+
+        public virtual bool AddNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            if (AdressesOfOwnedNonFungibleAssets.Contains(nonFungibleAsset) || !AdressesOfSupportedNonFungibleAssets.Contains(nonFungibleAsset))
+            {
+                return false;
+            }
+            AdressesOfOwnedNonFungibleAssets.Add(nonFungibleAsset);
+            return true;
+        }
+
+        public virtual bool DoesOwnNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            if (AdressesOfOwnedNonFungibleAssets.Contains(nonFungibleAsset))
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

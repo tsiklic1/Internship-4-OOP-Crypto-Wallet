@@ -25,6 +25,16 @@ namespace CryptoWalletApp.Classes.Wallet
             return base.AddSupportedNonFungibleAsset(newNonFungibleAsset);
         }
 
+        public override bool AddNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            return base.AddNonFungibleAsset(nonFungibleAsset);
+        }
+
+        public override bool DoesOwnNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            return base.DoesOwnNonFungibleAsset(nonFungibleAsset);
+        }
+
         //public static bool AddSupportedFungibleAsset(Guid fungibleAsset)
         //{
         //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))

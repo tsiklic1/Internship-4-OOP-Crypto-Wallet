@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CryptoWalletApp.Classes.Wallet
 {
-    public abstract class Wallet
+    public class Wallet  //abstract
     {
         public Guid Adress { get; }
         public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } //mozda samo set
