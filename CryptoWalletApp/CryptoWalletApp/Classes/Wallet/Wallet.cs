@@ -14,13 +14,14 @@ namespace CryptoWalletApp.Classes.Wallet
         public List<Guid> AdressesOfSupportedFungibleAssets { get; set; } /*= new List<Guid>();*/ //{ get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
         public List<Guid> AdressesOfTransactions { get; private set; }
         public decimal TotalValueOfFungibleAssetsInUSD { get; set; } = 0;
+        public List<decimal> HistoryOfValuesInUSD { get; set; }
         public Wallet()
         {
             Adress = Guid.NewGuid();
             BalancesOfFungibleAsset = new Dictionary<Guid, decimal>();
             AdressesOfTransactions = new List<Guid>();
             AdressesOfSupportedFungibleAssets= new List<Guid>();
-
+            HistoryOfValuesInUSD= new List<decimal>() {0};
         }
 
         public virtual bool AddSupportedFungibleAsset(Guid newFungibleAsset)
@@ -67,12 +68,19 @@ namespace CryptoWalletApp.Classes.Wallet
                 }
             }
             TotalValueOfFungibleAssetsInUSD = sum;
+            
             return sum;
         }
 
         public override string ToString()
         {
-            return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put";
+            HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD);
+            if (HistoryOfValuesInUSD.Count() == 2)
+            {
+                return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";
+
+            }
+            return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put {(HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 1] - HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2])/ HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2]}";
         }
 
 

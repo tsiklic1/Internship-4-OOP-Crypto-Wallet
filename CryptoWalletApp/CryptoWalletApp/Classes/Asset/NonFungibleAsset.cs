@@ -15,5 +15,10 @@ namespace CryptoWalletApp.Classes.Asset
         {
             AdressOfSpecificFungibleAsset= adressOfSpecificFungibleAsset;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"\nVrijednost u fungible assetu: {ValueInRelationToSpecificFungibleAsset}";
+        }
     }
 }

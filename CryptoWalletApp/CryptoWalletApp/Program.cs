@@ -231,6 +231,8 @@ namespace MyApp
                 skeletonApe, blueApe
             };
 
+            Console.WriteLine(blueApe);
+
 
             //9 walleta - po 3 btc, eth, sol
             //bitcoin walleti
@@ -245,10 +247,8 @@ namespace MyApp
             };
             bitcoinWallet1.AddBalanceOfFungibleAsset(bitcoin.Adress, 8);
             bitcoinWallet1.AddBalanceOfFungibleAsset(usdcoin.Adress, 5);
-
-            Console.WriteLine(bitcoinWallet1.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList));
-            Console.WriteLine(bitcoinWallet1);
-
+            bitcoinWallet1.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                        
             var bitcoinWallet2 = new BitcoinWallet() 
             {
                 AdressesOfSupportedFungibleAssets = new List<Guid>()
@@ -257,6 +257,7 @@ namespace MyApp
                 }
             };
             bitcoinWallet2.AddBalanceOfFungibleAsset(dogecoin.Adress, 9000);
+            bitcoinWallet2.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
 
             var bitcoinWallet3 = new BitcoinWallet() 
             {
@@ -266,6 +267,7 @@ namespace MyApp
                 }
             };
             bitcoinWallet3.AddBalanceOfFungibleAsset(ethereum.Adress, 50);
+            bitcoinWallet3.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
 
             var bitcoinWalletSupportedLabelsList = new List<string>()
             {
@@ -288,8 +290,9 @@ namespace MyApp
             
             };
             ethereumWallet1.AddBalanceOfFungibleAsset(ethereum.Adress, 10);
-            ethereumWallet1.AddSupportedNonFungibleAsset(regularApe.Adress);
             ethereumWallet1.AddNonFungibleAsset(regularApe.Adress);
+            ethereumWallet1.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+            ethereumWallet1.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
             var ethereumWallet2 = new EthereumWallet() 
             {
@@ -303,6 +306,8 @@ namespace MyApp
                 }
             };
             ethereumWallet2.AddBalanceOfFungibleAsset(bitcoin.Adress, 2);
+            ethereumWallet2.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+            ethereumWallet2.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
             var ethereumWallet3 = new EthereumWallet() 
             {
@@ -316,6 +321,8 @@ namespace MyApp
                 }
             };
             ethereumWallet3.AddBalanceOfFungibleAsset(tether.Adress, 3400);
+            ethereumWallet3.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+            ethereumWallet3.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
             var ethereumWalletSupportedLabelsList = new List<string>()
             {
@@ -338,6 +345,8 @@ namespace MyApp
             };
             solanaWallet1.AddBalanceOfFungibleAsset(polygon.Adress, 3000);
             solanaWallet1.AddNonFungibleAsset(punkApe.Adress);
+            solanaWallet1.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+            solanaWallet1.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
             var solanaWallet2 = new SolanaWallet() 
             {
@@ -352,6 +361,8 @@ namespace MyApp
                 }
             };
             solanaWallet2.AddBalanceOfFungibleAsset(bitcoin.Adress, 11);
+            solanaWallet2.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+            solanaWallet2.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
             var solanaWallet3 = new SolanaWallet() 
             {
@@ -366,6 +377,8 @@ namespace MyApp
                 }
             };
             solanaWallet3.AddBalanceOfFungibleAsset(dai.Adress, 4333);
+            solanaWallet3.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+            solanaWallet3.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
             var solanaWalletSupportedLabelsList = new List<string>()
             {
@@ -449,6 +462,7 @@ namespace MyApp
                         {
                             newBitcoinWallet = (BitcoinWallet)SetValuesOfFungibleAsset(newBitcoinWallet, label, bitcoinWalletSupportedLabelsList);
                         }
+                        newBitcoinWallet.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
 
                         Console.WriteLine("Ako zelite potvrditi stvaranje novog walleta upisite DA");
                         var confirmation = Console.ReadLine();
@@ -518,6 +532,8 @@ namespace MyApp
                             }
                             
                         }
+                        newEthereumWallet.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                        newEthereumWallet.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
 
                         Console.WriteLine("Ako zelite potvrditi stvaranje novog walleta upisite DA");
                         var confirmationForEthereum = Console.ReadLine();
@@ -574,7 +590,6 @@ namespace MyApp
                                 }
                             }
 
-                            //ode ne valja vise
                             var isAlreadyOwnedSol = CheckIfNonFungibleAssetIsAlreadyOwned(name, nonFungibleAssetList, listOfEthereumWallets, listOfSolanaWallets);
 
                             if (!isAlreadyOwnedSol)
@@ -585,8 +600,10 @@ namespace MyApp
                             {
                                 Console.WriteLine($"Netko vec posjeduje {name} pa on nije dodan u novi wallet.");
                             }
-
                         }
+                        newSolanaWallet.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                        newSolanaWallet.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+
                         Console.WriteLine("Ako zelite potvrditi stvaranje novog walleta upisite DA");
                         var confirmationForSolana = Console.ReadLine();
                         if (confirmationForSolana == "DA")
@@ -605,9 +622,158 @@ namespace MyApp
             void AccessWallet()
             {
                 Console.WriteLine("Trenutno dostupni walleti su: ");
-                
-            }
+                foreach (var item in listOfBitcoinWallets)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine("");
+                foreach (var item in listOfEthereumWallets)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine("");
+                foreach (var item in listOfSolanaWallets)
+                {
+                    Console.WriteLine(item);
+                }
+                Console.WriteLine("");
 
+                Console.WriteLine("Unesite adresu walleta koji zelite koristiti");
+                Guid guidOutput;
+                var adressOfWallet = Console.ReadLine();
+                bool isGuid = Guid.TryParse(adressOfWallet, out guidOutput);
+
+                if (!isGuid)
+                {
+                    Console.WriteLine("Niste unijeli adresu ispravno");
+                }
+                else
+                {
+                    var choiceOfSubmenu = "";
+                    while (choiceOfSubmenu != "0")
+                    {
+                        Console.WriteLine("Submenu:\n1 - Portfolio\n2 - Transfer\n3 - Povijest transakcija\n0 - Povratak na inicijalni menu");
+                        choiceOfSubmenu= Console.ReadLine();
+                        switch (choiceOfSubmenu)
+                        {
+                            case "1":
+                                Portfolio(guidOutput);
+                                break;
+                            case "2":
+                                break;
+                            case "3":
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            void Portfolio(Guid fGuidOutput)
+            {
+                foreach (var item in listOfBitcoinWallets)  //ovo ide samo u bitcoin wallete, triba ponovit za eth i sol
+                {
+                    if (fGuidOutput == item.Adress)
+                    {
+                        Console.WriteLine($"Ukupna vrijednost walleta u USD: { item.TotalValueOfFungibleAssetsInUSD}");
+                        foreach (var item1 in item.BalancesOfFungibleAsset)
+                        {
+                            foreach (var item2 in fungibleAssetList)
+                            {
+                                if (item1.Key == item2.Adress)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine(item2);
+                                    Console.WriteLine($"Ukupna vrijednost u USD: {item2.ValueInRelationToDollar * item1.Value}");
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var item in listOfEthereumWallets)  //ovo ide u eth wallete
+                {
+                    if (fGuidOutput == item.Adress)
+                    {
+                        Console.WriteLine($"Ukupna vrijednost walleta u USD: {item.TotalValueOfNonFungibleAssetsInUSD + item.TotalValueOfFungibleAssetsInUSD}");
+                        foreach (var item1 in item.BalancesOfFungibleAsset)
+                        {
+                            foreach (var item2 in fungibleAssetList)
+                            {
+                                if (item1.Key == item2.Adress)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine(item2);
+                                    Console.WriteLine($"Ukupna vrijednost u USD: {item2.ValueInRelationToDollar * item1.Value}");
+                                }
+                            }
+                        }
+                        foreach (var adress in item.AdressesOfOwnedNonFungibleAssets)
+                        {
+                            foreach (var asset in nonFungibleAssetList)
+                            {
+                                if (adress == asset.Adress)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine(asset);
+                                    //Console.WriteLine($"Ukupna vrijednost u USD {asset.ValueInRelationToSpecificFungibleAsset*asset.}");
+                                    foreach (var fungibleAsset in fungibleAssetList)
+                                    {
+                                        if (fungibleAsset.Adress == asset.AdressOfSpecificFungibleAsset)
+                                        {
+                                            Console.WriteLine($"Ukupna vrijednost u USD {fungibleAsset.ValueInRelationToDollar}");
+                                            Console.WriteLine($"Postotak promjene pripadnog fungible asseta u odnosu na zadnje prikazivanje {fungibleAsset.ToStringPercentageOfChangeSinceLastShowing()}");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    
+                    }
+                }
+
+                foreach (var item in listOfSolanaWallets)  //ovo ide u sol wallete
+                {
+                    if (fGuidOutput == item.Adress)
+                    {
+                        Console.WriteLine($"Ukupna vrijednost walleta u USD: {item.TotalValueOfNonFungibleAssetsInUSD + item.TotalValueOfFungibleAssetsInUSD}");
+                        foreach (var item1 in item.BalancesOfFungibleAsset)
+                        {
+                            foreach (var item2 in fungibleAssetList)
+                            {
+                                if (item1.Key == item2.Adress)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine(item2);
+                                    Console.WriteLine($"Ukupna vrijednost u USD: {item2.ValueInRelationToDollar * item1.Value}");
+                                }
+                            }
+                        }
+                        foreach (var adress in item.AdressesOfOwnedNonFungibleAssets)
+                        {
+                            foreach (var asset in nonFungibleAssetList)
+                            {
+                                if (adress == asset.Adress)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine(asset);
+                                    //Console.WriteLine($"Ukupna vrijednost u USD {asset.ValueInRelationToSpecificFungibleAsset*asset.}");
+                                    foreach (var fungibleAsset in fungibleAssetList)
+                                    {
+                                        if (fungibleAsset.Adress == asset.AdressOfSpecificFungibleAsset)
+                                        {
+                                            Console.WriteLine($"Ukupna vrijednost u USD {fungibleAsset.ValueInRelationToDollar}");
+                                            Console.WriteLine($"Postotak promjene pripadnog fungible asseta u odnosu na zadnje prikazivanje {fungibleAsset.ToStringPercentageOfChangeSinceLastShowing()}");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
 
             void PrintSupportedFungibleAssets(List<Guid> supportedAdresses, List<FungibleAsset> assetList)
             {

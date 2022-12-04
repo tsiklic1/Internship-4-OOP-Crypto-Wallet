@@ -13,6 +13,8 @@ namespace CryptoWalletApp.Classes.Wallet
         public List<Guid> AdressesOfSupportedNonFungibleAssets { get; set; }  //ovo mi možda i ne triba nego samo uvalit sa Fungible
         //isto za sve eth/sol wallete
 
+        public decimal TotalValueOfNonFungibleAssetsInUSD { get; set; } = 0;
+
         public AbleToInteractWithNonFungibleAssetWallet() : base() 
         {
             AdressesOfOwnedNonFungibleAssets= new List<Guid>();
@@ -81,8 +83,20 @@ namespace CryptoWalletApp.Classes.Wallet
                     }
                 }
             }
-            TotalValueOfFungibleAssetsInUSD = sum;
+            TotalValueOfNonFungibleAssetsInUSD = sum;
             return sum;
         }
+
+        public override string ToString()
+        {
+            HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
+            if (HistoryOfValuesInUSD.Count() == 2)
+            {
+                return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";
+
+            }
+            return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put {HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 1] - HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2]}";
+        }
+    
     }
 }

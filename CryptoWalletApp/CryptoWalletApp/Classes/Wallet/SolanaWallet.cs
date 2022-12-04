@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoWalletApp.Classes.Asset;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,16 @@ namespace CryptoWalletApp.Classes.Wallet
         public override bool DoesOwnNonFungibleAsset(Guid nonFungibleAsset)
         {
             return base.DoesOwnNonFungibleAsset(nonFungibleAsset);
+        }
+
+        public override decimal CalculateTotalValueOfNonFungibleAssetsInUSD(List<NonFungibleAsset> nonFungibleAssetList, List<FungibleAsset> fungibleAssetList)
+        {
+            return base.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+        }
+
+        public override string ToString()
+        {
+            return "Solana wallet\n" + base.ToString();
         }
 
         //public static bool AddSupportedFungibleAsset(Guid fungibleAsset)

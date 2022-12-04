@@ -8,13 +8,26 @@ namespace CryptoWalletApp.Classes.Asset
 {
     public class FungibleAsset : Asset
     {
-        public string Label { get; set; }  //triba dodat funkciju vjv static koja provjerava da nemaju 2 sa istin labelon i imenon‚ pogledaj borov CarStore
+        public string Label { get; set; } 
         public decimal ValueInRelationToDollar { get; private set; }
+        public List<decimal> HistoryOfValuesInRelationToUSD { get; set; }
 
         public FungibleAsset(decimal valueInRelationToDollar) : base() 
         { 
             ValueInRelationToDollar= valueInRelationToDollar;
+            HistoryOfValuesInRelationToUSD= new List<decimal>() {valueInRelationToDollar};
+        }
 
+        public override string ToString()
+        {
+            HistoryOfValuesInRelationToUSD.Add(ValueInRelationToDollar);
+            return base.ToString() + $"\nOznaka: {Label}\nVrijednost u USD: {ValueInRelationToDollar}\nPostotak promjene od posljednjeg prikazivanja: {(HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 1] - HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 2]) / HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 2]}"; 
+        }
+
+        public string ToStringPercentageOfChangeSinceLastShowing()
+        {
+            HistoryOfValuesInRelationToUSD.Add(ValueInRelationToDollar);
+            return $"{(HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 1] - HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 2]) / HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 2]}";
         }
     }
 }

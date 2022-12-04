@@ -17,6 +17,10 @@ namespace CryptoWalletApp.Classes.Asset
             Adress = Guid.NewGuid();
         }
 
+        public override string ToString()
+        {
+            return $"Adresa: {Adress}\nIme: {Name}";
+        }
 
 
     }

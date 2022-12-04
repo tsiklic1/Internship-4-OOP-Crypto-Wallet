@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoWalletApp.Classes.Asset;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,17 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             return base.DoesOwnNonFungibleAsset(nonFungibleAsset);
         }
-        
+
+        public override decimal CalculateTotalValueOfNonFungibleAssetsInUSD(List<NonFungibleAsset> nonFungibleAssetList, List<FungibleAsset> fungibleAssetList)
+        {
+            return base.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+        }
+
+        public override string ToString()
+        {
+            return "Ethereum wallet\n" + base.ToString();
+        }
+
         //public static bool AddSupportedFungibleAsset(Guid fungibleAsset)
         //{
         //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
