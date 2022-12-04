@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CryptoWalletApp.Classes.Wallet
 {
-    public abstract class AbleToInteractWithNonFungibleAssetWallet : Wallet
+    public class AbleToInteractWithNonFungibleAssetWallet : Wallet  //abstract
     {
         public List<Guid> AdressesOfOwnedNonFungibleAssets { get; set; }
         public List<Guid> AdressesOfSupportedNonFungibleAssets { get; set; }  //ovo mi možda i ne triba nego samo uvalit sa Fungible

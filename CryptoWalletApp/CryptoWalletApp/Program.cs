@@ -1,6 +1,7 @@
 ﻿using CryptoWalletApp.Classes.Asset;
 using CryptoWalletApp.Classes.Wallet;
 using System;
+using System.Net.Http.Headers;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
@@ -231,12 +232,8 @@ namespace MyApp
                 skeletonApe, blueApe
             };
 
-            Console.WriteLine(blueApe);
-
-
             //9 walleta - po 3 btc, eth, sol
             //bitcoin walleti
-
 
             var bitcoinWallet1 = new BitcoinWallet() 
             {
@@ -402,7 +399,8 @@ namespace MyApp
 
             var listOfWallets = new List<Wallet>()  //mozda bude tribala ova lista svih walleta
             {
-                bitcoinWallet1
+                bitcoinWallet1, bitcoinWallet2, bitcoinWallet3, ethereumWallet1, ethereumWallet2, ethereumWallet3,
+                solanaWallet1, solanaWallet2, solanaWallet3
             };
 
             var choice = "";
@@ -470,6 +468,7 @@ namespace MyApp
                         {
                             Console.WriteLine(newBitcoinWallet.Adress);
                             listOfBitcoinWallets.Add(newBitcoinWallet);
+                            listOfWallets.Add(newBitcoinWallet);
                         }
                         else
                             Console.WriteLine("Akcija ponistena");
@@ -540,6 +539,7 @@ namespace MyApp
                         if (confirmationForEthereum == "DA")
                         {
                             listOfEthereumWallets.Add(newEthereumWallet);
+                            listOfWallets.Add(newEthereumWallet);
                         }
                         else
                             Console.WriteLine("Akcija ponistena");
@@ -609,6 +609,7 @@ namespace MyApp
                         if (confirmationForSolana == "DA")
                         {
                             listOfSolanaWallets.Add(newSolanaWallet);
+                            listOfWallets.Add(newSolanaWallet);
                         }
                         else
                             Console.WriteLine("Akcija ponistena");
@@ -657,9 +658,12 @@ namespace MyApp
                         switch (choiceOfSubmenu)
                         {
                             case "1":
+                                Console.WriteLine("Odabrali ste 1 - Portfolio");
                                 Portfolio(guidOutput);
                                 break;
                             case "2":
+                                Console.WriteLine("Odabrali ste 2 - Transfer");
+                                Transfer(guidOutput);
                                 break;
                             case "3":
                                 break;
@@ -669,6 +673,89 @@ namespace MyApp
                     }
                 }
             }
+
+            void Transfer(Guid fGuidOutput)
+            {
+                Console.WriteLine("Unesite adresu walleta koji prima asset");
+                Guid guidOutputReceiver;
+                var adressOfReceiverWallet = Console.ReadLine();
+                bool isGuidReceiver = Guid.TryParse(adressOfReceiverWallet, out guidOutputReceiver);
+
+                Console.WriteLine("Unesite adresu asseta koji se salje");
+                Guid guidOutputAsset;
+                var adressOfAsset = Console.ReadLine();
+                bool isGuidAsset = Guid.TryParse(adressOfAsset, out guidOutputAsset);
+
+                if (isGuidAsset && isGuidReceiver)
+                {
+                    var isFungible = false;
+                    foreach (var item in fungibleAssetList)
+                    {
+                        if (guidOutputAsset == item.Adress)
+                        {
+                            isFungible = true;
+                        }
+                    }
+                    if (isFungible)
+                    {
+                        Console.WriteLine("Unesite kolicinu asseta (jer je asset fungible): ");
+                        decimal decimalOutput;
+                        var amountOfFungibleAssetInuput = Console.ReadLine();
+                        bool isAmountDecimal = decimal.TryParse(amountOfFungibleAssetInuput, out decimalOutput);
+
+                        if (isAmountDecimal)
+                        {
+                            //promjene balansa
+                            foreach (var walletDonor in listOfWallets)
+                            {
+                                if (walletDonor.Adress == fGuidOutput)
+                                {
+                                    if (walletDonor.BalancesOfFungibleAsset.ContainsKey(guidOutputAsset))
+                                    {
+                                        if (walletDonor.BalancesOfFungibleAsset[guidOutputAsset] >= decimalOutput)
+                                        {
+                                            foreach (var walletReceiver in listOfWallets)
+                                            {
+                                                if (walletReceiver.AdressesOfSupportedFungibleAssets.Contains(guidOutputAsset) && walletReceiver.Adress == guidOutputReceiver)
+                                                {
+                                                    walletDonor.AddBalanceOfFungibleAsset(guidOutputAsset, -decimalOutput);
+                                                    walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                                    walletReceiver.AddBalanceOfFungibleAsset(guidOutputAsset, decimalOutput);
+                                                    walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+
+
+                                                }
+                                                else if (walletReceiver.Adress == guidOutputReceiver)
+                                                    Console.WriteLine("Wallet koji treba primiti asset ga ne podrzava");
+                                            }
+                                        }
+                                        else
+                                            Console.WriteLine("Wallet donor nema dovoljnu kolicinu asseta");
+                                        
+                                    }
+                                    else
+                                        Console.WriteLine("Wallet koji bi trebao poslati asset ga uopce ne posjeduje");
+
+                                }
+                                
+                            }
+
+                        }
+                        else
+                            Console.WriteLine("Niste ispravno unijeli količinu");
+                    }
+                    else  //ovo je non fungible asset
+                    {
+                        //provjera je li supported
+                        //promjene balansa
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Niste ispravno unijeli adrese");
+                }
+            }
+
             void Portfolio(Guid fGuidOutput)
             {
                 foreach (var item in listOfBitcoinWallets)  //ovo ide samo u bitcoin wallete, triba ponovit za eth i sol
@@ -717,7 +804,6 @@ namespace MyApp
                                 {
                                     Console.WriteLine("");
                                     Console.WriteLine(asset);
-                                    //Console.WriteLine($"Ukupna vrijednost u USD {asset.ValueInRelationToSpecificFungibleAsset*asset.}");
                                     foreach (var fungibleAsset in fungibleAssetList)
                                     {
                                         if (fungibleAsset.Adress == asset.AdressOfSpecificFungibleAsset)
@@ -758,7 +844,6 @@ namespace MyApp
                                 {
                                     Console.WriteLine("");
                                     Console.WriteLine(asset);
-                                    //Console.WriteLine($"Ukupna vrijednost u USD {asset.ValueInRelationToSpecificFungibleAsset*asset.}");
                                     foreach (var fungibleAsset in fungibleAssetList)
                                     {
                                         if (fungibleAsset.Adress == asset.AdressOfSpecificFungibleAsset)
