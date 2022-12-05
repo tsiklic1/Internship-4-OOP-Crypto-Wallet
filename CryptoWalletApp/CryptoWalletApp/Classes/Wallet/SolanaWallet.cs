@@ -46,6 +46,15 @@ namespace CryptoWalletApp.Classes.Wallet
             return "Solana wallet\n" + base.ToString();
         }
 
+        public override void UpdateHistoryOfValues()
+        {
+            base.UpdateHistoryOfValues();
+        }
+        //public override void RemoveNonFungibleAsset(Guid assetAdress)
+        //{
+        //    base.RemoveNonFungibleAsset(assetAdress);
+        //}
+
         //public static bool AddSupportedFungibleAsset(Guid fungibleAsset)
         //{
         //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))

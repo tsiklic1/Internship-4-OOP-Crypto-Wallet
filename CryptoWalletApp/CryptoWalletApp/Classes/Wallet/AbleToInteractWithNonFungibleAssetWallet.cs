@@ -95,8 +95,23 @@ namespace CryptoWalletApp.Classes.Wallet
                 return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";
 
             }
-            return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put {HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 1] - HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2]}";
+            return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put {(HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 1] - HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2])/HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2]}";
         }
-    
+        public override void UpdateHistoryOfValues()
+        {
+            HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
+        }
+
+        //public virtual void RemoveNonFungibleAsset(Guid assetAdress)
+        //{
+        //    if (!AdressesOfOwnedNonFungibleAssets.Contains(assetAdress))
+        //    {
+        //        return;
+        //    }
+        //    AdressesOfOwnedNonFungibleAssets.Remove(assetAdress);
+        //}
+                    
+
+
     }
 }

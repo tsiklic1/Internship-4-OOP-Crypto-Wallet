@@ -29,6 +29,11 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             return "Bitcoin wallet\n" + base.ToString();
         }
+
+        public override void UpdateHistoryOfValues()
+        {
+            base.UpdateHistoryOfValues();
+        }
         //public bool AddSupportedFungibleAsset(Guid fungibleAsset)
         //{
         //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))

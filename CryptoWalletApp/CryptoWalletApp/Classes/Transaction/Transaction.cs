@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoWalletApp.Classes.Asset;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CryptoWalletApp.Classes.Transaction
 {
-    public abstract class Transaction
+    public class Transaction
     {
         public Guid Id { get; }
         public Guid AdressOfAsset { get; }  //ovo možda bude tribalo odvojeno za Fungible i NonFungible
@@ -14,5 +15,24 @@ namespace CryptoWalletApp.Classes.Transaction
         public Guid AdressOfDonor { get; }
         public Guid AdressOfReceiver { get; }
         public bool WasRevoked { get; set; }
+
+        public Transaction(Guid adressOfAsset, Guid adressOfDonor, Guid adressOfReceiver)
+        {
+            Id = Guid.NewGuid();
+            AdressOfAsset= adressOfAsset;
+            AdressOfDonor= adressOfDonor;
+            AdressOfReceiver = adressOfReceiver;
+            DateOfTransaction = DateTime.Now;
+            WasRevoked = false;
+        }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}\nDatum i vrijeme: {DateOfTransaction}\nAdresa donora: {AdressOfDonor}\nAdresa primatelja: {AdressOfReceiver}\n";
+        }
+
+        public virtual void GetFungibleAssetName(List<FungibleAsset> fFungibleAssetList) { }
+
+        public virtual void GetNonFungibleAssetName(List<NonFungibleAsset> fNonFungibleAssetList) { }
     }
 }

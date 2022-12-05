@@ -29,5 +29,14 @@ namespace CryptoWalletApp.Classes.Asset
             HistoryOfValuesInRelationToUSD.Add(ValueInRelationToDollar);
             return $"{(HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 1] - HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 2]) / HistoryOfValuesInRelationToUSD[HistoryOfValuesInRelationToUSD.Count() - 2]}";
         }
+
+        public void ChangeValueOfFungibleAssetRandomly()
+        {
+            System.Random random = new System.Random();
+            decimal numRandom;
+            numRandom = random.Next(-25,26);
+            ValueInRelationToDollar *= 1 + numRandom / 1000;
+
+        }
     }
 }

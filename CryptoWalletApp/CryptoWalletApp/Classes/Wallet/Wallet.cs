@@ -83,6 +83,10 @@ namespace CryptoWalletApp.Classes.Wallet
             return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put {(HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 1] - HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2])/ HistoryOfValuesInUSD[HistoryOfValuesInUSD.Count() - 2]}";
         }
 
+        public virtual void UpdateHistoryOfValues()
+        {
+            HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD);
+        }
 
     }
 }
