@@ -689,7 +689,7 @@ namespace MyApp
                 }
                 
             }
-
+            //HistoryOfTransaction uredna
             void HistoryOfTransactions(List<Transaction> fListOfTransactions, Guid fGuidOutput)
             {
                 List<Transaction> sortedListOfTransactions = fListOfTransactions.OrderByDescending(o => o.DateOfTransaction).ToList();
@@ -763,7 +763,7 @@ namespace MyApp
                     }
                 }
             }
-
+            //Transfer uredna
             void Transfer(Guid fGuidOutput)
             {
                 Console.WriteLine("Unesite adresu walleta koji prima asset");
@@ -776,193 +776,194 @@ namespace MyApp
                 var adressOfAsset = Console.ReadLine();
                 bool isGuidAsset = Guid.TryParse(adressOfAsset, out guidOutputAsset);
 
-                if (isGuidAsset && isGuidReceiver)
-                {
-                    var isFungible = false;
-                    var isNonFungible = false;
-                    foreach (var item in fungibleAssetList)
-                    {
-                        if (guidOutputAsset == item.Adress)
-                        {
-                            isFungible = true;
-                        }
-                    }
-
-                    foreach (var item in nonFungibleAssetList)
-                    {
-                        if (guidOutputAsset == item.Adress)
-                        {
-                            isNonFungible = true;
-                        }
-                    }
-                    if (isFungible)
-                    {
-                        Console.WriteLine("Unesite kolicinu asseta (jer je asset fungible): ");
-                        decimal decimalOutput;
-                        var amountOfFungibleAssetInuput = Console.ReadLine();
-                        bool isAmountDecimal = decimal.TryParse(amountOfFungibleAssetInuput, out decimalOutput);
-
-                        if (isAmountDecimal)
-                        {
-                            CreateFungibleAssetTransaction(fGuidOutput, guidOutputAsset, guidOutputReceiver, decimalOutput);
-                        }
-                        else
-                            Console.WriteLine("Niste ispravno unijeli količinu");
-                    }
-                    else if (isNonFungible) 
-                    {
-                        CreateNonFungibleAssetTransaction(fGuidOutput, guidOutputAsset, guidOutputReceiver);
-                    }  
-                    else
-                        Console.WriteLine("Unesena adresa asseta ne pripada nijednom assetu"); 
-                }
-                else
+                if (!(isGuidAsset && isGuidReceiver))
                 {
                     Console.WriteLine("Niste ispravno unijeli adrese");
+                    return;
                 }
+                var isFungible = false;
+                var isNonFungible = false;
+                foreach (var item in fungibleAssetList)
+                {
+                    if (guidOutputAsset == item.Adress)
+                    {
+                        isFungible = true;
+                    }
+                }
+
+                foreach (var item in nonFungibleAssetList)
+                {
+                    if (guidOutputAsset == item.Adress)
+                    {
+                        isNonFungible = true;
+                    }
+                }
+                if (isFungible)
+                {
+                    Console.WriteLine("Unesite kolicinu asseta (jer je asset fungible): ");
+                    decimal decimalOutput;
+                    var amountOfFungibleAssetInuput = Console.ReadLine();
+                    bool isAmountDecimal = decimal.TryParse(amountOfFungibleAssetInuput, out decimalOutput);
+
+                    if (!isAmountDecimal)
+                    {
+                        Console.WriteLine("Niste ispravno uniijeli količinu");
+                        return;
+                    }
+                    CreateFungibleAssetTransaction(fGuidOutput, guidOutputAsset, guidOutputReceiver, decimalOutput);                  
+                }
+                else if (isNonFungible)
+                {
+                    CreateNonFungibleAssetTransaction(fGuidOutput, guidOutputAsset, guidOutputReceiver);
+                }
+                else
+                    Console.WriteLine("Unesena adresa asseta ne pripada nijednom assetu");
+
+
 
                 Console.WriteLine($"Broj fungible transakcija: {listOfFungibleAssetTransactions.Count()}");
                 Console.WriteLine($"Broj non fungible asset transakcija: {listOfNonFungibleAssetTransactions.Count()}");
             }
-
+            //CreateFungibleAssetTransaction uredna
             void CreateFungibleAssetTransaction(Guid fGuidOutput, Guid fGuidOutputAsset, Guid fGuidOutputReceiver, decimal fDecimalOutput)
             {
                 foreach (var walletDonor in listOfWallets)
                 {
                     if (walletDonor.Adress == fGuidOutput)
                     {
-                        if (walletDonor.BalancesOfFungibleAsset.ContainsKey(fGuidOutputAsset))
+                        if (!walletDonor.BalancesOfFungibleAsset.ContainsKey(fGuidOutputAsset))
                         {
-                            if (walletDonor.BalancesOfFungibleAsset[fGuidOutputAsset] >= fDecimalOutput)
-                            {
-                                foreach (var walletReceiver in listOfWallets)
-                                {
-                                    if (walletReceiver.AdressesOfSupportedFungibleAssets.Contains(fGuidOutputAsset) && walletReceiver.Adress == fGuidOutputReceiver)
-                                    {                                     
-                                        Console.WriteLine("Ako zelite potvrditi transfer upisite DA");
-                                        var confirmationOfTransfer = Console.ReadLine();
-                                        if (confirmationOfTransfer == "DA")
-                                        {
-                                            walletDonor.AddBalanceOfFungibleAsset(fGuidOutputAsset, -fDecimalOutput);
-                                            walletReceiver.AddBalanceOfFungibleAsset(fGuidOutputAsset, fDecimalOutput);
-
-                                            foreach (var asset in fungibleAssetList)
-                                            {
-                                                if (asset.Adress == fGuidOutputAsset)
-                                                {
-                                                    asset.ChangeValueOfFungibleAssetRandomly();
-                                                }
-                                            }
-
-                                            walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                            walletDonor.UpdateHistoryOfValues();
-                                            walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                            walletReceiver.UpdateHistoryOfValues();
-
-                                            var newFungibleAssetTransaction = new FungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver)
-                                            {
-                                                StartBalanceOfDonor = walletDonor.HistoryOfValuesInUSD[walletDonor.HistoryOfValuesInUSD.Count() - 2],
-                                                EndBalanceOfDonor = walletDonor.HistoryOfValuesInUSD[walletDonor.HistoryOfValuesInUSD.Count() - 1],
-                                                StartBalanceOfReceiver = walletReceiver.HistoryOfValuesInUSD[walletReceiver.HistoryOfValuesInUSD.Count() - 2],
-                                                EndBalanceOfReceiver = walletReceiver.HistoryOfValuesInUSD[walletReceiver.HistoryOfValuesInUSD.Count() - 1],
-                                                AmountOfFungibleAsset = fDecimalOutput
-                                            };
-
-                                            newFungibleAssetTransaction.GetFungibleAssetName(fungibleAssetList);
-
-                                            listOfFungibleAssetTransactions.Add(newFungibleAssetTransaction);
-                                            listOfTransactions.Add(newFungibleAssetTransaction);
-                                        }
-                                        else
-                                            Console.WriteLine("Transfer ponisten");
-
-                                    }
-                                    else if (walletReceiver.Adress == fGuidOutputReceiver)
-                                        Console.WriteLine("Wallet koji treba primiti asset ga ne podrzava");
-                                }
-                            }
-                            else
-                                Console.WriteLine("Wallet donor nema dovoljnu kolicinu asseta");
-
-                        }
-                        else
                             Console.WriteLine("Wallet koji bi trebao poslati asset ga uopce ne posjeduje");
+                            return;                            
+                        }
+
+                        if (!(walletDonor.BalancesOfFungibleAsset[fGuidOutputAsset] >= fDecimalOutput))
+                        {
+                            Console.WriteLine("Wallet donor nema dovoljnu kolicinu asseta");
+                            return;
+                        }
+                        foreach (var walletReceiver in listOfWallets)
+                        {
+                            if (walletReceiver.AdressesOfSupportedFungibleAssets.Contains(fGuidOutputAsset) && walletReceiver.Adress == fGuidOutputReceiver)
+                            {
+                                Console.WriteLine("Ako zelite potvrditi transfer upisite DA");
+                                var confirmationOfTransfer = Console.ReadLine();
+                                if (!(confirmationOfTransfer == "DA"))
+                                {
+                                    Console.WriteLine("Transfer ponisten");
+                                    return;
+                                }
+                                walletDonor.AddBalanceOfFungibleAsset(fGuidOutputAsset, -fDecimalOutput);
+                                walletReceiver.AddBalanceOfFungibleAsset(fGuidOutputAsset, fDecimalOutput);
+
+                                foreach (var asset in fungibleAssetList)
+                                {
+                                    if (asset.Adress == fGuidOutputAsset)
+                                    {
+                                        asset.ChangeValueOfFungibleAssetRandomly();
+                                    }
+                                }
+
+                                walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                walletDonor.UpdateHistoryOfValues();
+                                walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                walletReceiver.UpdateHistoryOfValues();
+
+                                var newFungibleAssetTransaction = new FungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver)
+                                {
+                                    StartBalanceOfDonor = walletDonor.HistoryOfValuesInUSD[walletDonor.HistoryOfValuesInUSD.Count() - 2],
+                                    EndBalanceOfDonor = walletDonor.HistoryOfValuesInUSD[walletDonor.HistoryOfValuesInUSD.Count() - 1],
+                                    StartBalanceOfReceiver = walletReceiver.HistoryOfValuesInUSD[walletReceiver.HistoryOfValuesInUSD.Count() - 2],
+                                    EndBalanceOfReceiver = walletReceiver.HistoryOfValuesInUSD[walletReceiver.HistoryOfValuesInUSD.Count() - 1],
+                                    AmountOfFungibleAsset = fDecimalOutput
+                                };
+
+                                newFungibleAssetTransaction.GetFungibleAssetName(fungibleAssetList);
+
+                                listOfFungibleAssetTransactions.Add(newFungibleAssetTransaction);
+                                listOfTransactions.Add(newFungibleAssetTransaction);
+
+
+
+                            }
+                            else if (walletReceiver.Adress == fGuidOutputReceiver)
+                                Console.WriteLine("Wallet koji treba primiti asset ga ne podrzava");
+                        }
                     }
                 }
             }
-
+            //CreateNonFungibleAssetTransaction uredna donekle
             void CreateNonFungibleAssetTransaction(Guid fGuidOutput, Guid fGuidOutputAsset, Guid fGuidOutputReceiver)
             {
-                if ((listOfAbleToInteractiWithNonFungibleAssetsWallets.FindAll(element => element.Adress == fGuidOutput).Count() > 0) && (listOfAbleToInteractiWithNonFungibleAssetsWallets.FindAll(element => element.Adress == fGuidOutputReceiver).Count() > 0))
+                if (!((listOfAbleToInteractiWithNonFungibleAssetsWallets.FindAll(element => element.Adress == fGuidOutput).Count() > 0) && (listOfAbleToInteractiWithNonFungibleAssetsWallets.FindAll(element => element.Adress == fGuidOutputReceiver).Count() > 0)))
                 {
-                    foreach (var walletDonor in listOfAbleToInteractiWithNonFungibleAssetsWallets)
+                    Console.WriteLine("Nisu oba unesena walleta sposobna interaktati s non fungible assetima");
+                    return;
+                }
+                foreach (var walletDonor in listOfAbleToInteractiWithNonFungibleAssetsWallets)
+                {
+                    if (walletDonor.Adress == fGuidOutput && walletDonor.AdressesOfOwnedNonFungibleAssets.Contains(fGuidOutputAsset))
                     {
-                        if (walletDonor.Adress == fGuidOutput && walletDonor.AdressesOfOwnedNonFungibleAssets.Contains(fGuidOutputAsset))
+                        foreach (var walletReceiver in listOfAbleToInteractiWithNonFungibleAssetsWallets)
                         {
-                            foreach (var walletReceiver in listOfAbleToInteractiWithNonFungibleAssetsWallets)
+                            if (walletReceiver.Adress == fGuidOutputReceiver && walletReceiver.AdressesOfSupportedNonFungibleAssets.Contains(fGuidOutputAsset))
                             {
-                                if (walletReceiver.Adress == fGuidOutputReceiver && walletReceiver.AdressesOfSupportedNonFungibleAssets.Contains(fGuidOutputAsset))
+                                Console.WriteLine("Ako zelite potvrditi transfer upisite DA");
+                                var transferConfirmation = Console.ReadLine();
+                                if (!(transferConfirmation == "DA"))
                                 {
-                                    Console.WriteLine("Ako zelite potvrditi transfer upisite DA");
-                                    var transferConfirmation = Console.ReadLine();
-                                    if (transferConfirmation == "DA")
+                                    Console.WriteLine("Transfer ponisten");
+                                    return;
+                                }
+                                walletDonor.AdressesOfOwnedNonFungibleAssets.Remove(fGuidOutputAsset);
+                                walletReceiver.AdressesOfOwnedNonFungibleAssets.Add(fGuidOutputAsset);
+
+                                foreach (var nonFungibleAsset in nonFungibleAssetList)
+                                {
+                                    if (nonFungibleAsset.Adress == fGuidOutputAsset)
                                     {
-                                        walletDonor.AdressesOfOwnedNonFungibleAssets.Remove(fGuidOutputAsset);
-                                        walletReceiver.AdressesOfOwnedNonFungibleAssets.Add(fGuidOutputAsset);
-
-                                        foreach (var nonFungibleAsset in nonFungibleAssetList)
+                                        foreach (var fungibleAsset in fungibleAssetList)
                                         {
-                                            if (nonFungibleAsset.Adress == fGuidOutputAsset)
+                                            if (fungibleAsset.Adress == nonFungibleAsset.AdressOfSpecificFungibleAsset)
                                             {
-                                                foreach (var fungibleAsset in fungibleAssetList)
-                                                {
-                                                    if (fungibleAsset.Adress == nonFungibleAsset.AdressOfSpecificFungibleAsset)
-                                                    {
-                                                        fungibleAsset.ChangeValueOfFungibleAssetRandomly();
-                                                    }
-                                                }
+                                                fungibleAsset.ChangeValueOfFungibleAssetRandomly();
                                             }
                                         }
-
-                                        foreach (var asset in fungibleAssetList)
-                                        {
-                                            if (asset.Adress == fGuidOutputAsset)
-                                            {
-                                                asset.ChangeValueOfFungibleAssetRandomly();
-                                            }
-                                        }
-
-                                        walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                        walletDonor.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
-                                        walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                        walletReceiver.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
-                                        walletDonor.UpdateHistoryOfValues();
-                                        walletReceiver.UpdateHistoryOfValues();
-
-                                        var newNonFungibleAssetTransaction = new NonFungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver) { };
-                                        newNonFungibleAssetTransaction.GetNonFungibleAssetName(nonFungibleAssetList);
-                                        listOfNonFungibleAssetTransactions.Add(newNonFungibleAssetTransaction);
-                                        listOfTransactions.Add(newNonFungibleAssetTransaction);
                                     }
-                                    else
-                                        Console.WriteLine("Transfer ponisten");
+                                }
 
-                                }
-                                else if (walletReceiver.Adress == fGuidOutputReceiver)
+                                foreach (var asset in fungibleAssetList)
                                 {
-                                    Console.WriteLine("Wallet koji treba primiti asset ga uopce ne podrzava");
+                                    if (asset.Adress == fGuidOutputAsset)
+                                    {
+                                        asset.ChangeValueOfFungibleAssetRandomly();
+                                    }
                                 }
+
+                                walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                walletDonor.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+                                walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                walletReceiver.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+                                walletDonor.UpdateHistoryOfValues();
+                                walletReceiver.UpdateHistoryOfValues();
+
+                                var newNonFungibleAssetTransaction = new NonFungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver) { };
+                                newNonFungibleAssetTransaction.GetNonFungibleAssetName(nonFungibleAssetList);
+                                listOfNonFungibleAssetTransactions.Add(newNonFungibleAssetTransaction);
+                                listOfTransactions.Add(newNonFungibleAssetTransaction);
+                            }
+                            else if (walletReceiver.Adress == fGuidOutputReceiver)
+                            {
+                                Console.WriteLine("Wallet koji treba primiti asset ga uopce ne podrzava");
                             }
                         }
-                        else if (walletDonor.Adress == fGuidOutput)
-                            Console.WriteLine("Wallet donor nema taj non fungible asset");
                     }
-
+                    else if (walletDonor.Adress == fGuidOutput)
+                        Console.WriteLine("Wallet donor nema taj non fungible asset");
                 }
-                else
-                    Console.WriteLine("NISU OBA ABLE");
-            }
 
+            }
+            //Portfolio uredna
             void Portfolio(Guid fGuidOutput)
             {
                 foreach (var item in listOfBitcoinWallets)  //ovo ide samo u bitcoin wallete, triba ponovit za eth i sol
@@ -1072,7 +1073,7 @@ namespace MyApp
                     }
                 }
             }
-
+            //PrintSupportedFungibleAssets uredna
             void PrintSupportedFungibleAssets(List<Guid> supportedAdresses, List<FungibleAsset> assetList)
             {
                 foreach (var item1 in supportedAdresses) 
