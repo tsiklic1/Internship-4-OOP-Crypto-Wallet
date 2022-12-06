@@ -707,7 +707,61 @@ namespace MyApp
                 {
                     return;
                 }
-                RevokeTransaction();
+                RevokeTransaction(fGuidOutput);
+            }
+
+            void RevokeTransaction(Guid fGuidOutput)
+            {
+                Console.WriteLine("Unesite id transakcije koju zelite opozvati");
+                Guid guidOutputTransaction;
+                var adressOfTransaction = Console.ReadLine();
+                bool isGuid = Guid.TryParse(adressOfTransaction, out guidOutputTransaction);
+
+                if (!isGuid)
+                {
+                    Console.WriteLine("Neispravan unos adrese transakcije");
+                    return;
+                }
+                foreach (var transaction in listOfTransactions)
+                {
+                    if (transaction is FungibleAssetTransaction && guidOutputTransaction == transaction.Id)
+                    {
+                        transaction.WasRevoked = true;
+                        foreach (var walletDonor in listOfWallets)
+                        {
+                            foreach (var walletReceiver in listOfWallets)
+                            {
+                                if (walletDonor.Adress == transaction.AdressOfDonor && walletReceiver.Adress == transaction.AdressOfReceiver)
+                                {
+                                    walletDonor.AddBalanceOfFungibleAsset(transaction.AdressOfAsset, ((FungibleAssetTransaction)transaction).AmountOfFungibleAsset);
+                                    walletReceiver.AddBalanceOfFungibleAsset(transaction.AdressOfAsset, -((FungibleAssetTransaction)transaction).AmountOfFungibleAsset);
+                                }
+                            }
+                        }
+                    }
+                    else if(transaction is NonFungibleAssetTransaction && guidOutputTransaction == transaction.Id)
+                    {
+                        transaction.WasRevoked = true;
+                        foreach (var walletDonor in listOfWallets)
+                        {
+                            foreach (var walletReceiver in listOfWallets)
+                            {
+                                if (walletDonor.Adress == transaction.AdressOfDonor && walletReceiver.Adress == transaction.AdressOfReceiver)
+                                {
+                                    AbleToInteractWithNonFungibleAssetWallet walletDonorTemp = walletDonor as AbleToInteractWithNonFungibleAssetWallet;
+                                    AbleToInteractWithNonFungibleAssetWallet walletReceiverTemp = walletReceiver as AbleToInteractWithNonFungibleAssetWallet;
+                                    if (walletDonorTemp != null && walletReceiverTemp != null)
+                                    {
+                                        walletDonorTemp.AddNonFungibleAsset(transaction.AdressOfAsset);
+                                        walletReceiverTemp.RemoveNonFungibleAsset(transaction.AdressOfAsset);
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
             }
 
             void Transfer(Guid fGuidOutput)

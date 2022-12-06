@@ -14,7 +14,7 @@ namespace CryptoWalletApp.Classes.Transaction
 
         public override string ToString()
         {
-            return base.ToString() + $"\nIme non fungible asseta: {NameOfNonFungibleAsset}\nJe li opozvana: {WasRevoked}"; //ime non fungible asseta
+            return base.ToString() + $"Ime non fungible asseta: {NameOfNonFungibleAsset}\nJe li opozvana: {WasRevoked}\n"; //ime non fungible asseta
         }
 
         public override void GetNonFungibleAssetName(List<NonFungibleAsset> fNonFungibleAssetList)

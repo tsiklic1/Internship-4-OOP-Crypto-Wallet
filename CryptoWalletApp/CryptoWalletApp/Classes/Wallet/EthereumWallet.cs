@@ -20,7 +20,7 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             return base.AddBalanceOfFungibleAsset(fungibleAsset, amountOfFungibleAssetToBeAdded);
         }
-        
+
         public override bool AddSupportedNonFungibleAsset(Guid newNonFungibleAsset)
         {
             return base.AddSupportedNonFungibleAsset(newNonFungibleAsset);
@@ -50,6 +50,12 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             base.UpdateHistoryOfValues();
         }
+
+        public override bool RemoveNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            return base.RemoveNonFungibleAsset(nonFungibleAsset);
+        }
+
 
         //public override void RemoveNonFungibleAsset(Guid assetAdress)
         //{

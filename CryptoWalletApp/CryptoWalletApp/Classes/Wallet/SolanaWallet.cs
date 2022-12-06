@@ -50,6 +50,12 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             base.UpdateHistoryOfValues();
         }
+
+        public override bool RemoveNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            return base.RemoveNonFungibleAsset(nonFungibleAsset);
+        }
+
         //public override void RemoveNonFungibleAsset(Guid assetAdress)
         //{
         //    base.RemoveNonFungibleAsset(assetAdress);

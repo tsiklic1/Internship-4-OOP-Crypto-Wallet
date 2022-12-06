@@ -50,6 +50,16 @@ namespace CryptoWalletApp.Classes.Wallet
             return true;
         }
 
+        public virtual bool RemoveNonFungibleAsset(Guid nonFungibleAsset)
+        {
+            if (!AdressesOfOwnedNonFungibleAssets.Contains(nonFungibleAsset))
+            {
+                return false;
+            }
+            AdressesOfOwnedNonFungibleAssets.Remove(nonFungibleAsset);
+            return true;
+        }
+
         public virtual bool DoesOwnNonFungibleAsset(Guid nonFungibleAsset)
         {
             if (AdressesOfOwnedNonFungibleAssets.Contains(nonFungibleAsset))
@@ -101,6 +111,8 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
         }
+
+        
 
         //public virtual void RemoveNonFungibleAsset(Guid assetAdress)
         //{
