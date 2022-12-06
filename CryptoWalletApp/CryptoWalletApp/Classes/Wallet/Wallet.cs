@@ -1,17 +1,12 @@
 ﻿using CryptoWalletApp.Classes.Asset;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoWalletApp.Classes.Wallet
 {
     public class Wallet  //abstract
     {
         public Guid Adress { get; }
-        public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } //mozda samo set
-        public List<Guid> AdressesOfSupportedFungibleAssets { get; set; } /*= new List<Guid>();*/ //{ get; private set; }  //ovo je isto za sve wallete istog tipa (BTC, ETH, ...)
+        public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } 
+        public List<Guid> AdressesOfSupportedFungibleAssets { get; set; }
         public List<Guid> AdressesOfTransactions { get; private set; }
         public decimal TotalValueOfFungibleAssetsInUSD { get; set; } = 0;
         public List<decimal> HistoryOfValuesInUSD { get; set; }
@@ -74,7 +69,6 @@ namespace CryptoWalletApp.Classes.Wallet
 
         public override string ToString()
         {
-            //HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD);
             if (HistoryOfValuesInUSD.Count() == 2)
             {
                 return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CryptoWalletApp.Classes.Asset
+﻿namespace CryptoWalletApp.Classes.Asset
 {
     public abstract class Asset
     {

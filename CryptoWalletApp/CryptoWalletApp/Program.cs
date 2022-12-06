@@ -1,11 +1,6 @@
 ﻿using CryptoWalletApp.Classes.Asset;
 using CryptoWalletApp.Classes.Transaction;
 using CryptoWalletApp.Classes.Wallet;
-using System;
-using System.Net.Http.Headers;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
 namespace MyApp 
 {
@@ -13,7 +8,7 @@ namespace MyApp
     {
         static void Main(string[] args)
         {
-            //10 fungible asseta
+            //10 fungible assets
             var bitcoin = new FungibleAsset(16000)
             {
                 Name = "Bitcoin",
@@ -85,7 +80,7 @@ namespace MyApp
                 polkadot.Label, dai.Label, usdcoin.Label
             };
 
-            //20 Non Fungible asseta
+            //20 Non Fungible assets
             //0
             var regularApe = new NonFungibleAsset(bitcoin.Adress)
             {
@@ -233,8 +228,8 @@ namespace MyApp
                 skeletonApe, blueApe
             };
 
-            //9 walleta - po 3 btc, eth, sol
-            //bitcoin walleti
+            //9 wallets - po 3 btc, eth, sol
+            //bitcoin wallets
 
             var bitcoinWallet1 = new BitcoinWallet() 
             {
@@ -272,7 +267,7 @@ namespace MyApp
                 bitcoin.Label, ethereum.Label, dogecoin.Label, usdcoin.Label
             };
 
-            //ethereum walleti
+            //ethereum wallets
 
             var ethereumWallet1 = new EthereumWallet() 
             {
@@ -325,7 +320,7 @@ namespace MyApp
                 bitcoin.Label, ethereum.Label, tether.Label, bnb.Label, cardano.Label
             };
 
-            //solana walleti
+            //solana wallets
 
             var solanaWallet1 = new SolanaWallet() 
             {
@@ -396,7 +391,7 @@ namespace MyApp
                 solanaWallet1, solanaWallet2, solanaWallet3
             };
 
-            var listOfWallets = new List<Wallet>()  //mozda bude tribala ova lista svih walleta
+            var listOfWallets = new List<Wallet>() 
             {
                 bitcoinWallet1, bitcoinWallet2, bitcoinWallet3, ethereumWallet1, ethereumWallet2, ethereumWallet3,
                 solanaWallet1, solanaWallet2, solanaWallet3
@@ -813,6 +808,11 @@ namespace MyApp
                         Console.WriteLine("Niste ispravno uniijeli količinu");
                         return;
                     }
+                    if (decimalOutput <= 0)
+                    {
+                        Console.WriteLine("Količina koju se šalje ne može biti ne-pozitivna");
+                        return;
+                    }
                     CreateFungibleAssetTransaction(fGuidOutput, guidOutputAsset, guidOutputReceiver, decimalOutput);                  
                 }
                 else if (isNonFungible)
@@ -822,9 +822,7 @@ namespace MyApp
                 else
                     Console.WriteLine("Unesena adresa asseta ne pripada nijednom assetu");
 
-
-
-                Console.WriteLine($"Broj fungible transakcija: {listOfFungibleAssetTransactions.Count()}");
+                Console.WriteLine($"Broj fungible asset transakcija: {listOfFungibleAssetTransactions.Count()}");
                 Console.WriteLine($"Broj non fungible asset transakcija: {listOfNonFungibleAssetTransactions.Count()}");
             }
 
@@ -867,11 +865,6 @@ namespace MyApp
                                     }
                                 }
 
-                                //walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                //walletDonor.UpdateHistoryOfValues();
-                                //walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                //walletReceiver.UpdateHistoryOfValues();
-
                                 var newFungibleAssetTransaction = new FungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver)
                                 {
                                     StartBalanceOfDonor = walletDonor.HistoryOfValuesInUSD[walletDonor.HistoryOfValuesInUSD.Count() - 2],
@@ -885,9 +878,6 @@ namespace MyApp
 
                                 listOfFungibleAssetTransactions.Add(newFungibleAssetTransaction);
                                 listOfTransactions.Add(newFungibleAssetTransaction);
-
-
-
                             }
                             else if (walletReceiver.Adress == fGuidOutputReceiver)
                                 Console.WriteLine("Wallet koji treba primiti asset ga ne podrzava");
@@ -1037,7 +1027,7 @@ namespace MyApp
                     }
                 }
 
-                foreach (var item in listOfSolanaWallets)  //ovo ide u sol wallete
+                foreach (var item in listOfSolanaWallets)  
                 {
                     item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
                     item.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);

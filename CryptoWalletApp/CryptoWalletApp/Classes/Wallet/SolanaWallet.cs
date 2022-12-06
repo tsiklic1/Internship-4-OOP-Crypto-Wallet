@@ -1,9 +1,4 @@
 ﻿using CryptoWalletApp.Classes.Asset;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoWalletApp.Classes.Wallet
 {
@@ -55,21 +50,5 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             return base.RemoveNonFungibleAsset(nonFungibleAsset);
         }
-
-        //public override void RemoveNonFungibleAsset(Guid assetAdress)
-        //{
-        //    base.RemoveNonFungibleAsset(assetAdress);
-        //}
-
-        //public static bool AddSupportedFungibleAsset(Guid fungibleAsset)
-        //{
-        //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
-        //    {
-        //        return false;
-        //    }
-        //    AdressesOfSupportedFungibleAssets.Add(fungibleAsset);
-        //    return true;
-        //}
-
     }
 }
