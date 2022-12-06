@@ -1,10 +1,4 @@
 ﻿using CryptoWalletApp.Classes.Asset;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CryptoWalletApp.Classes.Wallet
 {
     public class AbleToInteractWithNonFungibleAssetWallet : Wallet  //abstract
@@ -81,7 +75,7 @@ namespace CryptoWalletApp.Classes.Wallet
             {
                 foreach (var item2 in nonFungibleAssetList)
                 {
-                    if (item == item2.Adress) //ovo nađe adresu nfta 
+                    if (item == item2.Adress) 
                     {
                         foreach (var item3 in fungibleAssetList)
                         {
@@ -99,7 +93,7 @@ namespace CryptoWalletApp.Classes.Wallet
 
         public override string ToString()
         {
-            HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
+            //HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
             if (HistoryOfValuesInUSD.Count() == 2)
             {
                 return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";
@@ -111,19 +105,5 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
         }
-
-        
-
-        //public virtual void RemoveNonFungibleAsset(Guid assetAdress)
-        //{
-        //    if (!AdressesOfOwnedNonFungibleAssets.Contains(assetAdress))
-        //    {
-        //        return;
-        //    }
-        //    AdressesOfOwnedNonFungibleAssets.Remove(assetAdress);
-        //}
-                    
-
-
     }
 }

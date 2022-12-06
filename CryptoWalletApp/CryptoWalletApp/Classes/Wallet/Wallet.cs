@@ -74,7 +74,7 @@ namespace CryptoWalletApp.Classes.Wallet
 
         public override string ToString()
         {
-            HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD);
+            //HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD);
             if (HistoryOfValuesInUSD.Count() == 2)
             {
                 return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";

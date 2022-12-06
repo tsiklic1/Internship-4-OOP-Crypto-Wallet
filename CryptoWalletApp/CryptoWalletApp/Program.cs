@@ -635,24 +635,27 @@ namespace MyApp
                 Console.WriteLine("Trenutno dostupni walleti su: ");
                 foreach (var item in listOfBitcoinWallets)
                 {
+                    item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
                     item.UpdateHistoryOfValues();
                     Console.WriteLine(item);
                 }
                 Console.WriteLine("");
                 foreach (var item in listOfEthereumWallets)
                 {
+                    item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                    item.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
                     item.UpdateHistoryOfValues();
-
                     Console.WriteLine(item);
                 }
                 Console.WriteLine("");
                 foreach (var item in listOfSolanaWallets)
                 {
+                    item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                    item.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
                     item.UpdateHistoryOfValues();
                     Console.WriteLine(item);
                 }
                 Console.WriteLine("");
-
                 Console.WriteLine("Unesite adresu walleta koji zelite koristiti");
                 Guid guidOutput;
                 var adressOfWallet = Console.ReadLine();
@@ -689,7 +692,7 @@ namespace MyApp
                 }
                 
             }
-            //HistoryOfTransaction uredna
+
             void HistoryOfTransactions(List<Transaction> fListOfTransactions, Guid fGuidOutput)
             {
                 List<Transaction> sortedListOfTransactions = fListOfTransactions.OrderByDescending(o => o.DateOfTransaction).ToList();
@@ -763,7 +766,7 @@ namespace MyApp
                     }
                 }
             }
-            //Transfer uredna
+
             void Transfer(Guid fGuidOutput)
             {
                 Console.WriteLine("Unesite adresu walleta koji prima asset");
@@ -824,7 +827,7 @@ namespace MyApp
                 Console.WriteLine($"Broj fungible transakcija: {listOfFungibleAssetTransactions.Count()}");
                 Console.WriteLine($"Broj non fungible asset transakcija: {listOfNonFungibleAssetTransactions.Count()}");
             }
-            //CreateFungibleAssetTransaction uredna
+
             void CreateFungibleAssetTransaction(Guid fGuidOutput, Guid fGuidOutputAsset, Guid fGuidOutputReceiver, decimal fDecimalOutput)
             {
                 foreach (var walletDonor in listOfWallets)
@@ -864,10 +867,10 @@ namespace MyApp
                                     }
                                 }
 
-                                walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                walletDonor.UpdateHistoryOfValues();
-                                walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                walletReceiver.UpdateHistoryOfValues();
+                                //walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                //walletDonor.UpdateHistoryOfValues();
+                                //walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                //walletReceiver.UpdateHistoryOfValues();
 
                                 var newFungibleAssetTransaction = new FungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver)
                                 {
@@ -892,7 +895,7 @@ namespace MyApp
                     }
                 }
             }
-            //CreateNonFungibleAssetTransaction uredna donekle
+
             void CreateNonFungibleAssetTransaction(Guid fGuidOutput, Guid fGuidOutputAsset, Guid fGuidOutputReceiver)
             {
                 if (!((listOfAbleToInteractiWithNonFungibleAssetsWallets.FindAll(element => element.Adress == fGuidOutput).Count() > 0) && (listOfAbleToInteractiWithNonFungibleAssetsWallets.FindAll(element => element.Adress == fGuidOutputReceiver).Count() > 0)))
@@ -915,8 +918,10 @@ namespace MyApp
                                     Console.WriteLine("Transfer ponisten");
                                     return;
                                 }
-                                walletDonor.AdressesOfOwnedNonFungibleAssets.Remove(fGuidOutputAsset);
-                                walletReceiver.AdressesOfOwnedNonFungibleAssets.Add(fGuidOutputAsset);
+                                //walletDonor.AdressesOfOwnedNonFungibleAssets.Remove(fGuidOutputAsset);
+                                //walletReceiver.AdressesOfOwnedNonFungibleAssets.Add(fGuidOutputAsset);
+                                walletDonor.RemoveNonFungibleAsset(fGuidOutputAsset);
+                                walletReceiver.AddNonFungibleAsset(fGuidOutputAsset);
 
                                 foreach (var nonFungibleAsset in nonFungibleAssetList)
                                 {
@@ -940,12 +945,12 @@ namespace MyApp
                                     }
                                 }
 
-                                walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                walletDonor.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
-                                walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                walletReceiver.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
-                                walletDonor.UpdateHistoryOfValues();
-                                walletReceiver.UpdateHistoryOfValues();
+                                //walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                //walletDonor.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+                                //walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                                //walletReceiver.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+                                //walletDonor.UpdateHistoryOfValues();
+                                //walletReceiver.UpdateHistoryOfValues();
 
                                 var newNonFungibleAssetTransaction = new NonFungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver) { };
                                 newNonFungibleAssetTransaction.GetNonFungibleAssetName(nonFungibleAssetList);
@@ -963,12 +968,13 @@ namespace MyApp
                 }
 
             }
-            //Portfolio uredna
+
             void Portfolio(Guid fGuidOutput)
             {
-                foreach (var item in listOfBitcoinWallets)  //ovo ide samo u bitcoin wallete, triba ponovit za eth i sol
+                foreach (var item in listOfBitcoinWallets)  
                 {
                     item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                    item.UpdateHistoryOfValues();
                     if (fGuidOutput == item.Adress)
                     {
                         Console.WriteLine($"Ukupna vrijednost walleta u USD: { item.TotalValueOfFungibleAssetsInUSD}");
@@ -988,10 +994,11 @@ namespace MyApp
                     }
                 }
 
-                foreach (var item in listOfEthereumWallets)  //ovo ide u eth wallete
+                foreach (var item in listOfEthereumWallets)  
                 {
                     item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
                     item.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
+                    item.UpdateHistoryOfValues();
                     if (fGuidOutput == item.Adress)
                     {
                         Console.WriteLine($"Ukupna vrijednost walleta u USD: {item.TotalValueOfNonFungibleAssetsInUSD + item.TotalValueOfFungibleAssetsInUSD}");
@@ -1032,6 +1039,8 @@ namespace MyApp
 
                 foreach (var item in listOfSolanaWallets)  //ovo ide u sol wallete
                 {
+                    item.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
+                    item.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
                     item.UpdateHistoryOfValues();
                     if (fGuidOutput == item.Adress)
                     {
@@ -1073,7 +1082,7 @@ namespace MyApp
                     }
                 }
             }
-            //PrintSupportedFungibleAssets uredna
+
             void PrintSupportedFungibleAssets(List<Guid> supportedAdresses, List<FungibleAsset> assetList)
             {
                 foreach (var item1 in supportedAdresses) 
