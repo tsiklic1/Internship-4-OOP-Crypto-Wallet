@@ -523,7 +523,6 @@ namespace MyApp
                                 }
                             }
 
-
                             var isAlreadyOwnedEth = CheckIfNonFungibleAssetIsAlreadyOwned(name, nonFungibleAssetList, listOfEthereumWallets, listOfSolanaWallets);
 
                             if (!isAlreadyOwnedEth) 
@@ -533,8 +532,7 @@ namespace MyApp
                             else
                             {
                                 Console.WriteLine($"Netko vec posjeduje {name} pa on nije dodan u novi wallet.");
-                            }
-                            
+                            }                            
                         }
                         newEthereumWallet.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
                         newEthereumWallet.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
@@ -751,7 +749,6 @@ namespace MyApp
                             Console.WriteLine("Ne moze se opozvati jer je proslo vise od 45 sekundi od izvrsenja");
                             return;
                         }
-
 
                         transaction.WasRevoked = true;
                         foreach (var walletDonor in listOfWallets)
@@ -1138,7 +1135,7 @@ namespace MyApp
             {
                 if (!supportedLabelsList.Contains(fLabel))
                 {
-                    Console.WriteLine($"Fungible asset s labelom {fLabel} nije podrzan u bitcoin walletu");
+                    Console.WriteLine($"Fungible asset s labelom {fLabel} nije podrzan u walletu");
                 }
                 else
                 {

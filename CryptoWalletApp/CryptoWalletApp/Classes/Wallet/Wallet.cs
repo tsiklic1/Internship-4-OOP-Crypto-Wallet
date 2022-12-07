@@ -2,7 +2,7 @@
 
 namespace CryptoWalletApp.Classes.Wallet
 {
-    public class Wallet  //abstract
+    public class Wallet  
     {
         public Guid Adress { get; }
         public Dictionary<Guid, decimal> BalancesOfFungibleAsset { get; private set; } 

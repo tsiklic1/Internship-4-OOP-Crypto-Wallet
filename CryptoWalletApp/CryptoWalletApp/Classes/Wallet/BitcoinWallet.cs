@@ -29,6 +29,5 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             base.UpdateHistoryOfValues();
         }
-
     }
 }
