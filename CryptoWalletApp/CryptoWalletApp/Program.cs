@@ -714,6 +714,7 @@ namespace MyApp
                 Guid guidOutputTransaction;
                 var adressOfTransaction = Console.ReadLine();
                 bool isGuid = Guid.TryParse(adressOfTransaction, out guidOutputTransaction);
+                DateTime now = DateTime.Now;
 
                 if (!isGuid)
                 {
@@ -724,6 +725,12 @@ namespace MyApp
                 {
                     if (transaction is FungibleAssetTransaction && guidOutputTransaction == transaction.Id)
                     {
+                        if (now.Subtract(transaction.DateOfTransaction).TotalSeconds > 45)
+                        {
+                            Console.WriteLine("Ne moze se opozvati jer je proslo vise od 45 sekundi od izvrsenja");
+                            return;
+                        }
+
                         transaction.WasRevoked = true;
                         foreach (var walletDonor in listOfWallets)
                         {
@@ -739,6 +746,13 @@ namespace MyApp
                     }
                     else if(transaction is NonFungibleAssetTransaction && guidOutputTransaction == transaction.Id)
                     {
+                        if (now.Subtract(transaction.DateOfTransaction).TotalSeconds > 45)
+                        {
+                            Console.WriteLine("Ne moze se opozvati jer je proslo vise od 45 sekundi od izvrsenja");
+                            return;
+                        }
+
+
                         transaction.WasRevoked = true;
                         foreach (var walletDonor in listOfWallets)
                         {
@@ -908,8 +922,7 @@ namespace MyApp
                                     Console.WriteLine("Transfer ponisten");
                                     return;
                                 }
-                                //walletDonor.AdressesOfOwnedNonFungibleAssets.Remove(fGuidOutputAsset);
-                                //walletReceiver.AdressesOfOwnedNonFungibleAssets.Add(fGuidOutputAsset);
+                                
                                 walletDonor.RemoveNonFungibleAsset(fGuidOutputAsset);
                                 walletReceiver.AddNonFungibleAsset(fGuidOutputAsset);
 
@@ -934,13 +947,6 @@ namespace MyApp
                                         asset.ChangeValueOfFungibleAssetRandomly();
                                     }
                                 }
-
-                                //walletDonor.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                //walletDonor.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
-                                //walletReceiver.CalculateTotalValueOfFungibleAssetsInUSD(fungibleAssetList);
-                                //walletReceiver.CalculateTotalValueOfNonFungibleAssetsInUSD(nonFungibleAssetList, fungibleAssetList);
-                                //walletDonor.UpdateHistoryOfValues();
-                                //walletReceiver.UpdateHistoryOfValues();
 
                                 var newNonFungibleAssetTransaction = new NonFungibleAssetTransaction(fGuidOutputAsset, fGuidOutput, fGuidOutputReceiver) { };
                                 newNonFungibleAssetTransaction.GetNonFungibleAssetName(nonFungibleAssetList);
@@ -1136,13 +1142,13 @@ namespace MyApp
                 }
                 else
                 {
-                    Console.WriteLine($"Unesite koliko {fLabel} zelite postaviti");
+                    Console.WriteLine($"Unesite koliko {fLabel} zelite postaviti ");
                     decimal decimalOutput;
                     var amount = Console.ReadLine();
                     bool isDecimal = decimal.TryParse(amount, out decimalOutput);
-                    if (!isDecimal)
+                    if (!isDecimal || decimalOutput < 0)
                     {
-                        Console.WriteLine("To nije pravilan unos");
+                        Console.WriteLine("To nije pravilan unos (ako potvrdite stvaranje walleta kolicina ovog asseta ce biti 0)");
                     }
                     else
                     {

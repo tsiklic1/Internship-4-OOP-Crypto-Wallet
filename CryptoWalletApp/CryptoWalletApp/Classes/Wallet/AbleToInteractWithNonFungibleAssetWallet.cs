@@ -4,8 +4,7 @@ namespace CryptoWalletApp.Classes.Wallet
     public class AbleToInteractWithNonFungibleAssetWallet : Wallet  //abstract
     {
         public List<Guid> AdressesOfOwnedNonFungibleAssets { get; set; }
-        public List<Guid> AdressesOfSupportedNonFungibleAssets { get; set; }  //ovo mi možda i ne triba nego samo uvalit sa Fungible
-        //isto za sve eth/sol wallete
+        public List<Guid> AdressesOfSupportedNonFungibleAssets { get; set; }  
 
         public decimal TotalValueOfNonFungibleAssetsInUSD { get; set; } = 0;
 
@@ -93,7 +92,6 @@ namespace CryptoWalletApp.Classes.Wallet
 
         public override string ToString()
         {
-            //HistoryOfValuesInUSD.Add(TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD);
             if (HistoryOfValuesInUSD.Count() == 2)
             {
                 return $"Adresa: {Adress}\nUkupna vrijednost u USD: {TotalValueOfFungibleAssetsInUSD + TotalValueOfNonFungibleAssetsInUSD}\nPostotak promjene u odnosu na prosli put 0";

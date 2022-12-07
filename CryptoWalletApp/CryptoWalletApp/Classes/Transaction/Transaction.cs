@@ -5,7 +5,7 @@ namespace CryptoWalletApp.Classes.Transaction
     public class Transaction
     {
         public Guid Id { get; }
-        public Guid AdressOfAsset { get; }  //ovo možda bude tribalo odvojeno za Fungible i NonFungible
+        public Guid AdressOfAsset { get; }  
         public DateTime DateOfTransaction { get; }
         public Guid AdressOfDonor { get; }
         public Guid AdressOfReceiver { get; }

@@ -29,15 +29,6 @@ namespace CryptoWalletApp.Classes.Wallet
         {
             base.UpdateHistoryOfValues();
         }
-        //public bool AddSupportedFungibleAsset(Guid fungibleAsset)
-        //{
-        //    if (AdressesOfSupportedFungibleAssets.Contains(fungibleAsset))
-        //    {
-        //        return false;
-        //    }
-        //    AdressesOfSupportedFungibleAssets.Add(fungibleAsset);
-        //    return true;
-        //}
 
     }
 }
